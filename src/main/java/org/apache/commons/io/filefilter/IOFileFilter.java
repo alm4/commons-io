@@ -37,6 +37,9 @@ public interface IOFileFilter extends FileFilter, FilenameFilter {
      * @param file  the File to check
      * @return true if this file matches the test
      */
+	
+	//@ also requires file != null;
+	//@ also ensures \typeof(\result) == \type(boolean);
     @Override
     boolean accept(File file);
 
@@ -49,6 +52,12 @@ public interface IOFileFilter extends FileFilter, FilenameFilter {
      * @param name  the filename within the directory to check
      * @return true if this file matches the test
      */
+    
+    //@ also requires dir != null;
+    //@ also requires name != null;
+    //@ also requires name != "";
+    //@ also ensures \result == (dir.getPath().equals(name));
+    //@ also ensures \typeof(\result) == \type(boolean);
     @Override
     boolean accept(File dir, String name);
 
