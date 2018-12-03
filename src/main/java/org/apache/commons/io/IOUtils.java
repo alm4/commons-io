@@ -164,12 +164,15 @@ public class IOUtils {
      * (if the buffer size were variable, we would need to synch. to ensure some other thread
      * did not create a smaller one)
      */
-    private static char[] SKIP_CHAR_BUFFER;
-    private static byte[] SKIP_BYTE_BUFFER;
+    private /*@ spec_public @*/ static char[] SKIP_CHAR_BUFFER;
+    private /*@ spec_public @*/ static byte[] SKIP_BYTE_BUFFER;
 
     /**
      * Instances should NOT be constructed in standard programming.
      */
+    
+    //@ ensures SKIP_CHAR_BUFFER == null;
+    //@ ensures SKIP_BYTE_BUFFER == null;
     public IOUtils() {
         super();
     }
@@ -182,6 +185,8 @@ public class IOUtils {
      * @param conn the connection to close.
      * @since 2.4
      */
+    
+    //@ requires conn != null;
     public static void close(final URLConnection conn) {
         if (conn instanceof HttpURLConnection) {
             ((HttpURLConnection) conn).disconnect();
@@ -558,6 +563,11 @@ public class IOUtils {
      * @throws IOException if an I/O error occurs
      * @since 2.0
      */
+    
+    //@ requires input != null;
+    //@ ensures \typeof(\result) == \type(InputStream);
+    //@ ensures \result != null;
+    //@ signals (IOException e);
     public static InputStream toBufferedInputStream(final InputStream input) throws IOException {
         return ByteArrayOutputStream.toBufferedInputStream(input);
     }
@@ -584,6 +594,12 @@ public class IOUtils {
      * @throws IOException if an I/O error occurs
      * @since 2.5
      */
+    
+    //@ requires input != null;
+    //@ requires size >= 0;
+    //@ ensures \typeof(\result) == \type(InputStream);
+    //@ ensures \result != null;
+    //@ signals (IOException e);
     public static InputStream toBufferedInputStream(final InputStream input, final int size) throws IOException {
         return ByteArrayOutputStream.toBufferedInputStream(input, size);
     }
@@ -598,6 +614,12 @@ public class IOUtils {
      * @see #buffer(Reader)
      * @since 2.2
      */
+    
+    /*@ signals (NullPointerException) 
+      @         (reader != null);
+      @*/
+    //@ requires reader != null;
+    //ensures \typeof(\return) == \type(BufferedReader);
     public static BufferedReader toBufferedReader(final Reader reader) {
         return reader instanceof BufferedReader ? (BufferedReader) reader : new BufferedReader(reader);
     }
@@ -613,6 +635,13 @@ public class IOUtils {
      * @see #buffer(Reader)
      * @since 2.5
      */
+    
+    /*@ signals (NullPointerException) 
+    @         (reader != null);
+    @*/
+    //@ requires reader != null;
+    //@ requires size >= 0;
+    //ensures \typeof(\return) == \type(BufferedReader);
     public static BufferedReader toBufferedReader(final Reader reader, final int size) {
         return reader instanceof BufferedReader ? (BufferedReader) reader : new BufferedReader(reader, size);
     }
@@ -626,6 +655,13 @@ public class IOUtils {
      * @throws NullPointerException if the input parameter is null
      * @since 2.5
      */
+    
+    /*@ signals (NullPointerException) 
+    @         (reader != null);
+    @*/
+    //@ requires reader != null;
+    //ensures \typeof(\return) == \type(BufferedReader);
+    
     public static BufferedReader buffer(final Reader reader) {
         return reader instanceof BufferedReader ? (BufferedReader) reader : new BufferedReader(reader);
     }
@@ -640,6 +676,14 @@ public class IOUtils {
      * @throws NullPointerException if the input parameter is null
      * @since 2.5
      */
+    
+    /*@ signals (NullPointerException) 
+    @         (reader != null);
+    @*/
+    //@ requires reader != null;
+    //@ requires size >= 0;
+    //ensures \typeof(\return) == \type(BufferedReader);
+    
     public static BufferedReader buffer(final Reader reader, final int size) {
         return reader instanceof BufferedReader ? (BufferedReader) reader : new BufferedReader(reader, size);
     }
@@ -653,6 +697,13 @@ public class IOUtils {
      * @throws NullPointerException if the input parameter is null
      * @since 2.5
      */
+    
+    /*@ signals (NullPointerException) 
+    @         (writer != null);
+    @*/
+    //@ requires writer != null;
+    //ensures \typeof(\return) == \type(BufferedWriter);
+    
     public static BufferedWriter buffer(final Writer writer) {
         return writer instanceof BufferedWriter ? (BufferedWriter) writer : new BufferedWriter(writer);
     }
@@ -667,6 +718,14 @@ public class IOUtils {
      * @throws NullPointerException if the input parameter is null
      * @since 2.5
      */
+    
+    /*@ signals (NullPointerException) 
+    @         (writer != null);
+    @*/
+    //@ requires writer != null;
+    //@ requires size >= 0;
+    //ensures \typeof(\return) == \type(BufferedReader);
+    
     public static BufferedWriter buffer(final Writer writer, final int size) {
         return writer instanceof BufferedWriter ? (BufferedWriter) writer : new BufferedWriter(writer, size);
     }
@@ -680,6 +739,13 @@ public class IOUtils {
      * @throws NullPointerException if the input parameter is null
      * @since 2.5
      */
+    
+    /*@ signals (NullPointerException) 
+    @         (outputStream != null);
+    @*/
+    //@ requires outputStream != null;
+    //ensures \typeof(\return) == \type(BufferedOutputStream);
+    
     public static BufferedOutputStream buffer(final OutputStream outputStream) {
         // reject null early on rather than waiting for IO operation to fail
         if (outputStream == null) { // not checked by BufferedOutputStream
@@ -699,6 +765,14 @@ public class IOUtils {
      * @throws NullPointerException if the input parameter is null
      * @since 2.5
      */
+    
+    /*@ signals (NullPointerException) 
+    @         (outputStream != null);
+    @*/
+    //@ requires outputStream != null;
+    //@ requires size >= 0;
+    //ensures \typeof(\return) == \type(BufferedOutputStream);
+    
     public static BufferedOutputStream buffer(final OutputStream outputStream, final int size) {
         // reject null early on rather than waiting for IO operation to fail
         if (outputStream == null) { // not checked by BufferedOutputStream
@@ -717,6 +791,13 @@ public class IOUtils {
      * @throws NullPointerException if the input parameter is null
      * @since 2.5
      */
+    
+    /*@ signals (NullPointerException) 
+    @         (inputStream != null);
+    @*/
+    //@ requires inputStream != null;
+    //ensures \typeof(\return) == \type(BufferedInputStream);
+    
     public static BufferedInputStream buffer(final InputStream inputStream) {
         // reject null early on rather than waiting for IO operation to fail
         if (inputStream == null) { // not checked by BufferedInputStream
@@ -736,6 +817,14 @@ public class IOUtils {
      * @throws NullPointerException if the input parameter is null
      * @since 2.5
      */
+    
+    /*@ signals (NullPointerException) 
+    @         (inputStream != null);
+    @*/
+    //@ requires inputStream != null;
+    //@ requires size >= 0;
+    //ensures \typeof(\return) == \type(BufferedInputStream);
+    
     public static BufferedInputStream buffer(final InputStream inputStream, final int size) {
         // reject null early on rather than waiting for IO operation to fail
         if (inputStream == null) { // not checked by BufferedInputStream
