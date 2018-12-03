@@ -83,6 +83,7 @@ public class BoundedInputStream extends InputStream {
      * @throws IOException if an I/O error occurs
      */
     @Override
+    //also @ ensures \result == EOF || \result == result; 
     public int read() throws IOException {
         if (max >= 0 && pos >= max) {
             return EOF;
@@ -100,6 +101,7 @@ public class BoundedInputStream extends InputStream {
      * @throws IOException if an I/O error occurs
      */
     @Override
+    //also @ ensures \result == this.read(b, 0, b.length); 
     public int read(final byte[] b) throws IOException {
         return this.read(b, 0, b.length);
     }
@@ -114,6 +116,9 @@ public class BoundedInputStream extends InputStream {
      * @throws IOException if an I/O error occurs
      */
     @Override
+    //also @ requires len >= 0;
+    //also @ requires  off >= 0;
+    //also @ ensures \result == EOF || \result == bytesRead; 
     public int read(final byte[] b, final int off, final int len) throws IOException {
         if (max>=0 && pos>=max) {
             return EOF;
@@ -136,6 +141,7 @@ public class BoundedInputStream extends InputStream {
      * @throws IOException if an I/O error occurs
      */
     @Override
+    //also @ ensures \result == skippedBytes;
     public long skip(final long n) throws IOException {
         final long toSkip = max>=0 ? Math.min(n, max-pos) : n;
         final long skippedBytes = in.skip(toSkip);
@@ -147,6 +153,7 @@ public class BoundedInputStream extends InputStream {
      * {@inheritDoc}
      */
     @Override
+  //also @ ensures \result == 0 || \result == in.available();
     public int available() throws IOException {
         if (max>=0 && pos>=max) {
             return 0;
@@ -159,6 +166,7 @@ public class BoundedInputStream extends InputStream {
      * @return the delegate's <code>toString()</code>
      */
     @Override
+    //also @ ensures \result == in.toString();
     public String toString() {
         return in.toString();
     }
@@ -200,6 +208,7 @@ public class BoundedInputStream extends InputStream {
      * @return true if mark is supported, otherwise false
      */
     @Override
+    //also @ ensures \result == in.markSupported();
     public boolean markSupported() {
         return in.markSupported();
     }
@@ -212,6 +221,7 @@ public class BoundedInputStream extends InputStream {
      * propagates to the <code>close()</code> method of the
      * underlying stream or {@code false} if it does not.
      */
+    //also @ ensures \result == propagateClose; 
     public boolean isPropagateClose() {
         return propagateClose;
     }

@@ -139,6 +139,7 @@ public class BOMInputStream extends ProxyInputStream {
     private static final Comparator<ByteOrderMark> ByteOrderMarkLengthComparator = new Comparator<ByteOrderMark>() {
 
         @Override
+        //also @ ensures \result == EOF || \result == 1 || \result == 0;
         public int compare(final ByteOrderMark bom1, final ByteOrderMark bom2) {
             final int len1 = bom1.length();
             final int len2 = bom2.length();
@@ -162,6 +163,7 @@ public class BOMInputStream extends ProxyInputStream {
      * @param boms
      *            The BOMs to detect and optionally exclude
      */
+    //@ requires include == true || include == false;
     public BOMInputStream(final InputStream delegate, final boolean include, final ByteOrderMark... boms) {
         super(delegate);
         if (boms == null || boms.length == 0) {
@@ -182,6 +184,7 @@ public class BOMInputStream extends ProxyInputStream {
      * @throws IOException
      *             if an error reading the first bytes of the stream occurs
      */
+    
     public boolean hasBOM() throws IOException {
         return getBOM() != null;
     }
@@ -212,6 +215,7 @@ public class BOMInputStream extends ProxyInputStream {
      * @throws IOException
      *             if an error reading the first bytes of the stream occurs
      */
+    
     public ByteOrderMark getBOM() throws IOException {
         if (firstBytes == null) {
             fbLength = 0;
@@ -273,6 +277,7 @@ public class BOMInputStream extends ProxyInputStream {
      *
      * @return The matched BOM or null if none matched
      */
+    
     private ByteOrderMark find() {
         for (final ByteOrderMark bom : boms) {
             if (matches(bom)) {
@@ -289,6 +294,7 @@ public class BOMInputStream extends ProxyInputStream {
      *            The BOM
      * @return true if the bytes match the bom, otherwise false
      */
+    //@ ensures \result == false || \result == true;
     private boolean matches(final ByteOrderMark bom) {
         // if (bom.length() != fbLength) {
         // return false;
@@ -333,6 +339,7 @@ public class BOMInputStream extends ProxyInputStream {
      *             if an I/O error occurs
      */
     @Override
+    
     public int read(final byte[] buf, int off, int len) throws IOException {
         int firstCount = 0;
         int b = 0;

@@ -223,6 +223,8 @@ public class ReaderInputStream extends InputStream {
      * @throws IOException if an I/O error occurs
      */
     @Override
+    //also @ requires off > -1 ;
+    //also @ requires len > -1;
     public int read(final byte[] b, int off, int len) throws IOException {
         if (b == null) {
             throw new NullPointerException("Byte array must not be null");

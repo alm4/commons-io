@@ -55,6 +55,7 @@ public class CountingInputStream extends ProxyInputStream {
      * @see java.io.InputStream#skip(long)
      */
     @Override
+    //also @ ensures \result == skip; 
     public synchronized long skip(final long length) throws IOException {
         final long skip = super.skip(length);
         this.count += skip;
@@ -68,6 +69,7 @@ public class CountingInputStream extends ProxyInputStream {
      * @since 2.0
      */
     @Override
+    
     protected synchronized void afterRead(final int n) {
         if (n != EOF) {
             this.count += n;
@@ -85,6 +87,7 @@ public class CountingInputStream extends ProxyInputStream {
      * @return the number of bytes accumulated
      * @throws ArithmeticException if the byte count is too large
      */
+   
     public int getCount() {
         final long result = getByteCount();
         if (result > Integer.MAX_VALUE) {
@@ -121,6 +124,7 @@ public class CountingInputStream extends ProxyInputStream {
      * @return the number of bytes accumulated
      * @since 1.3
      */
+    
     public synchronized long getByteCount() {
         return this.count;
     }
@@ -135,6 +139,7 @@ public class CountingInputStream extends ProxyInputStream {
      * @return the count previous to resetting
      * @since 1.3
      */
+    
     public synchronized long resetByteCount() {
         final long tmp = this.count;
         this.count = 0;

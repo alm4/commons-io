@@ -103,6 +103,7 @@ public enum IOCase {
      *
      * @return the resolved object
      */
+    
     private Object readResolve() {
         return forName(name);
     }
@@ -113,6 +114,7 @@ public enum IOCase {
      *
      * @return the name of the constant
      */
+    
     public String getName() {
         return name;
     }
@@ -122,6 +124,7 @@ public enum IOCase {
      *
      * @return true if case sensitive
      */
+  
     public boolean isCaseSensitive() {
         return sensitive;
     }
@@ -138,7 +141,7 @@ public enum IOCase {
      * @return true if equal using the case rules
      * @throws NullPointerException if either string is null
      */
-    public int checkCompareTo(final String str1, final String str2) {
+    public int checkCompareTo(final /*@ non_null @*/ String str1, final/*@ non_null @*/ String str2) {
         if (str1 == null || str2 == null) {
             throw new NullPointerException("The strings must not be null");
         }
@@ -156,7 +159,7 @@ public enum IOCase {
      * @return true if equal using the case rules
      * @throws NullPointerException if either string is null
      */
-    public boolean checkEquals(final String str1, final String str2) {
+    public boolean checkEquals(final /*@ non_null @*/ String str1, final/*@ non_null @*/ String str2) {
         if (str1 == null || str2 == null) {
             throw new NullPointerException("The strings must not be null");
         }
@@ -174,7 +177,7 @@ public enum IOCase {
      * @return true if equal using the case rules
      * @throws NullPointerException if either string is null
      */
-    public boolean checkStartsWith(final String str, final String start) {
+    public boolean checkStartsWith(final/*@ non_null @*/ String str, final/*@ non_null @*/ String start) {
         return str.regionMatches(!sensitive, 0, start, 0, start.length());
     }
 
@@ -189,7 +192,7 @@ public enum IOCase {
      * @return true if equal using the case rules
      * @throws NullPointerException if either string is null
      */
-    public boolean checkEndsWith(final String str, final String end) {
+    public boolean checkEndsWith(final /*@ non_null @*/ String str, final/*@ non_null @*/ String end) {
         final int endLen = end.length();
         return str.regionMatches(!sensitive, str.length() - endLen, end, 0, endLen);
     }
@@ -209,7 +212,8 @@ public enum IOCase {
      * @throws NullPointerException if either string is null
      * @since 2.0
      */
-    public int checkIndexOf(final String str, final int strStartIndex, final String search) {
+    
+    public int checkIndexOf(final/*@ non_null @*/ String str, final int strStartIndex, final/*@ non_null @*/ String search) {
         final int endIndex = str.length() - search.length();
         if (endIndex >= strStartIndex) {
             for (int i = strStartIndex; i <= endIndex; i++) {
@@ -233,7 +237,7 @@ public enum IOCase {
      * @return true if equal using the case rules
      * @throws NullPointerException if either string is null
      */
-    public boolean checkRegionMatches(final String str, final int strStartIndex, final String search) {
+    public boolean checkRegionMatches(final/*@ non_null @*/ String str, final int strStartIndex, final/*@ non_null @*/ String search) {
         return str.regionMatches(!sensitive, strStartIndex, search, 0, search.length());
     }
 
@@ -244,6 +248,7 @@ public enum IOCase {
      * @return a string describing the sensitivity
      */
     @Override
+    //also @ ensures \result == name;
     public String toString() {
         return name;
     }
