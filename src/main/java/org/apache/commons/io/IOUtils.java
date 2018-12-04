@@ -572,10 +572,12 @@ public class IOUtils {
      * @since 2.0
      */
     
+    //@ signals_only IOException;
     //@ requires input != null;
     //@ ensures \typeof(\result) == \type(InputStream);
     //@ ensures \result != null;
     //@ signals (IOException e);
+    
     public static InputStream toBufferedInputStream(final InputStream input) throws IOException {
         return ByteArrayOutputStream.toBufferedInputStream(input);
     }
@@ -603,6 +605,7 @@ public class IOUtils {
      * @since 2.5
      */
     
+    //@ signals_only IOException;
     //@ requires input != null;
     //@ requires size >= 0;
     //@ ensures \typeof(\result) == \type(InputStream);
@@ -624,8 +627,9 @@ public class IOUtils {
      * @since 2.2
      */
     
+    //@ signals_only NullPointerException;
     /*@ signals (NullPointerException) 
-      @         (reader != null);
+      @         (reader == null);
       @*/
     //@ requires reader != null;
     //@ensures \typeof(\result) == \type(BufferedReader);
@@ -647,13 +651,15 @@ public class IOUtils {
      * @since 2.5
      */
     
+    //@ signals_only NullPointerException;
     /*@ signals (NullPointerException) 
-    @         (reader != null);
+    @         (reader == null);
     @*/
     //@ requires reader != null;
     //@ requires size >= 0;
     //@ensures \typeof(\result) == \type(BufferedReader);
     //@ensures \result != null;
+    
     public static BufferedReader toBufferedReader(final Reader reader, final int size) {
         return reader instanceof BufferedReader ? (BufferedReader) reader : new BufferedReader(reader, size);
     }
@@ -668,8 +674,9 @@ public class IOUtils {
      * @since 2.5
      */
     
+    //@ signals_only NullPointerException;
     /*@ signals (NullPointerException) 
-    @         (reader != null);
+    @         (reader == null);
     @*/
     //@ requires reader != null;
     //@ensures \typeof(\result) == \type(BufferedReader);
@@ -690,8 +697,9 @@ public class IOUtils {
      * @since 2.5
      */
     
+    //@ signals_only NullPointerException;
     /*@ signals (NullPointerException) 
-    @         (reader != null);
+    @         (reader == null);
     @*/
     //@ requires reader != null;
     //@ requires size >= 0;
@@ -713,8 +721,9 @@ public class IOUtils {
      * @since 2.5
      */
     
+    //@ signals_only NullPointerException;
     /*@ signals (NullPointerException) 
-    @         (writer != null);
+    @         (writer == null);
     @*/
     //@ requires writer != null;
     //@ensures \typeof(\result) == \type(BufferedWriter);
@@ -736,8 +745,9 @@ public class IOUtils {
      * @since 2.5
      */
     
+    //@ signals_only NullPointerException;
     /*@ signals (NullPointerException) 
-    @         (writer != null);
+    @         (writer == null);
     @*/
     //@ requires writer != null;
     //@ requires size >= 0;
@@ -759,8 +769,9 @@ public class IOUtils {
      * @since 2.5
      */
     
+    //@ signals_only NullPointerException;
     /*@ signals (NullPointerException) 
-    @         (outputStream != null);
+    @         (outputStream == null);
     @*/
     //@ requires outputStream != null;
     //@ensures \typeof(\result) == \type(BufferedOutputStream);
@@ -786,8 +797,9 @@ public class IOUtils {
      * @since 2.5
      */
     
+    //@ signals_only NullPointerException;
     /*@ signals (NullPointerException) 
-    @         (outputStream != null);
+    @         (outputStream == null);
     @*/
     //@ requires outputStream != null;
     //@ requires size >= 0;
@@ -813,8 +825,9 @@ public class IOUtils {
      * @since 2.5
      */
     
+    //@ signals_only NullPointerException;
     /*@ signals (NullPointerException) 
-    @         (inputStream != null);
+    @         (inputStream == null);
     @*/
     //@ requires inputStream != null;
     //@ensures \typeof(\result) == \type(BufferedInputStream);
@@ -840,8 +853,9 @@ public class IOUtils {
      * @since 2.5
      */
     
+    //@ signals_only NullPointerException;
     /*@ signals (NullPointerException) 
-    @         (inputStream != null);
+    @         (inputStream == null);
     @*/
     //@ requires inputStream != null;
     //@ requires size >= 0;
@@ -872,8 +886,9 @@ public class IOUtils {
      * @throws IOException          if an I/O error occurs
      */
     
+    //@ signals_only NullPointerException, IOException;
     /*@ signals (NullPointerException) 
-    @         (input != null);
+    @         (input == null);
     @*/
     //@ signals (IOException); 
     //@ requires input != null;
@@ -905,14 +920,11 @@ public class IOUtils {
      * @since 2.1
      */
     
-    /*@ signals (NullPointerException) 
-    @         (input != null);
-    @*/
+    //@ signals_only IllegalArgumentException, IOException;
     /*@ signals (IllegalArgumentException) 
     @         (size > Integer.MAX_VALUE);
     @*/
     //@ signals (IOException); 
-    //@ requires input != null;
     //@ requires size >= 0;
     //@ensures \typeof(\result) == \type(byte[]);
     //@ ensures \result != null;
@@ -940,14 +952,11 @@ public class IOUtils {
      * @since 2.1
      */
     
-    /*@ signals (NullPointerException) 
-    @         (input != null);
-    @*/
+    //@ signals_only IllegalArgumentException, IOException;
     /*@ signals (IllegalArgumentException) 
     @         (size < 0);
     @*/
     //@ signals (IOException); 
-    //@ requires input != null;
     //@ requires size >= 0;
     //@ensures \typeof(\result) == \type(byte[]);
     //@ ensures \result != null;
@@ -1010,8 +1019,9 @@ public class IOUtils {
      * @since 2.3
      */
     
+    //@ signals_only NullPointerException, IOException;
     /*@ signals (NullPointerException) 
-    @         (input != null);
+    @         (input == null);
     @*/
     //@ signals (IOException); 
     //@ requires input != null;
@@ -1046,8 +1056,9 @@ public class IOUtils {
      * @since 1.1
      */
     
+    //@ signals_only NullPointerException, IOException;
     /*@ signals (NullPointerException) 
-    @         (input != null);
+    @         (input == null);
     @*/
     //@ signals (java.nio.charset.UnsupportedCharsetException);
     //@ signals (IOException); 
@@ -1087,8 +1098,9 @@ public class IOUtils {
      * @since 2.4
      */
     
+    //@ signals_only NullPointerException, IOException;
     /*@ signals (NullPointerException) 
-    @         (uri != null);
+    @         (uri == null);
     @*/
     //@ signals (IOException); 
     //@ requires uri != null;
@@ -1109,8 +1121,9 @@ public class IOUtils {
      * @since 2.4
      */
     
+    //@ signals_only NullPointerException, IOException;
     /*@ signals (NullPointerException) 
-    @         (url != null);
+    @         (url == null);
     @*/
     //@ signals (IOException); 
     //@ requires url != null;
@@ -1136,8 +1149,9 @@ public class IOUtils {
      * @since 2.4
      */
     
+    //@ signals_only NullPointerException, IOException;
     /*@ signals (NullPointerException) 
-    @         (urlConn != null);
+    @         (urlConn == null);
     @*/
     //@ signals (IOException); 
     //@ requires urlConn != null;
@@ -1187,8 +1201,9 @@ public class IOUtils {
      * @since 2.3
      */
     
+    //@ signals_only NullPointerException, IOException;
     /*@ signals (NullPointerException) 
-    @         (is != null);
+    @         (is == null);
     @*/
     //@ signals (IOException); 
     //@ requires is != null;
@@ -1223,8 +1238,9 @@ public class IOUtils {
      * @since 1.1
      */
     
+    //@ signals_only NullPointerException, IOException, java.nio.charset.UnsupportedCharsetException;
     /*@ signals (NullPointerException) 
-    @         (is != null);
+    @         (is == null);
     @*/
     //@ signals (IOException); 
     //@ signals (java.nio.charset.UnsupportedCharsetException); 
@@ -1247,9 +1263,9 @@ public class IOUtils {
      * @throws IOException          if an I/O error occurs
      * @since 1.1
      */
-    
+    //@ signals_only NullPointerException, IOException;
     /*@ signals (NullPointerException) 
-    @         (input != null);
+    @         (input == null);
     @*/
     //@ signals (IOException); 
     //@ requires input != null;
@@ -1298,8 +1314,9 @@ public class IOUtils {
      * @since 2.3
      */
     
+    //@ signals_only NullPointerException, IOException;
     /*@ signals (NullPointerException) 
-    @         (input != null);
+    @         (input == null);
     @*/
     //@ signals (IOException); 
     //@ requires input != null;
@@ -1333,8 +1350,9 @@ public class IOUtils {
      *                                                      encoding is not supported.
      */
     
+    //@ signals_only NullPointerException, IOException;
     /*@ signals (NullPointerException) 
-    @         (input != null);
+    @         (input == null);
     @*/
     //@ signals (IOException); 
     //@ requires input != null;
@@ -1358,8 +1376,9 @@ public class IOUtils {
      * @throws IOException          if an I/O error occurs
      */
     
+    //@ signals_only NullPointerException, IOException;
     /*@ signals (NullPointerException) 
-    @         (input != null);
+    @         (input == null);
     @*/
     //@ signals (IOException); 
     //@ requires input != null;
@@ -1397,8 +1416,9 @@ public class IOUtils {
      * @since 2.3.
      */
     
+    //@ signals_only NullPointerException, IOException;
     /*@ signals (NullPointerException) 
-    @         (uri != null);
+    @         (uri == null);
     @*/
     //@ signals (IOException); 
     //@ requires uri != null;
@@ -1422,8 +1442,9 @@ public class IOUtils {
      * @since 2.1
      */
     
+    //@ signals_only NullPointerException, IOException, java.nio.charset.UnsupportedCharsetException;
     /*@ signals (NullPointerException) 
-    @         (uri != null);
+    @         (uri == null);
     @*/
     //@ signals (IOException); 
     //@ signals (java.nio.charset.UnsupportedCharsetException); 
@@ -1458,8 +1479,8 @@ public class IOUtils {
      * @throws IOException if an I/O exception occurs.
      * @since 2.3
      */
-    
-    //@ signals (IOException); 
+   
+    //@ signals_only IOException;
     //@ensures \typeof(\result) == \type(String);
     //@ ensures \result != null;
     
@@ -1482,8 +1503,7 @@ public class IOUtils {
      * @since 2.1
      */
     
-    //@ signals (IOException); 
-    //@ signals (java.nio.charset.UnsupportedCharsetException); 
+    //@ signals_only IOException, java.nio.charset.UnsupportedCharsetException; 
     //@ensures \typeof(\result) == \type(String);
 
     //@ ensures \result != null;
@@ -1520,9 +1540,10 @@ public class IOUtils {
      * @throws NullPointerException if the input is null
      * @throws IOException          if an I/O error occurs (never occurs)
      */
-    
+   
+    //@ signals_only NullPointerException, IOException;
     /*@ signals (NullPointerException) 
-    @         (input != null);
+    @         (input == null);
     @*/
     //@ signals (IOException); 
     //@ requires input != null;
@@ -1557,7 +1578,7 @@ public class IOUtils {
     //@ requires name != "";
     //@ ensures \typeof(\result) == \type(String);
     //@ ensures \result != null;
-    //@ signals (IOException);
+    //@ signals_only IOException;
     
     public static String resourceToString(final String name, final Charset encoding) throws IOException {
         return resourceToString(name, encoding, null);
@@ -1585,7 +1606,7 @@ public class IOUtils {
     //@ requires name != "";
     //@ ensures \typeof(\result) == \type(String);
     //@ ensures \result != null;
-    //@ signals (IOException);
+    //@ signals_only IOException;
     
     public static String resourceToString(final String name, final Charset encoding, final ClassLoader classLoader) throws IOException {
         return toString(resourceToURL(name, classLoader), encoding);
@@ -1606,7 +1627,7 @@ public class IOUtils {
      * @since 2.6
      */
     
-    //@ signals (IOException); 
+    //@ signals_only IOException; 
     //@ requires name != null;
     //@ requires name != "";
     //@ensures \typeof(\result) == \type(byte[]);
@@ -1636,7 +1657,7 @@ public class IOUtils {
     //@ requires name != "";
     //@ ensures \typeof(\result) == \type(byte[]);
     //@ ensures \result != null;
-    //@ signals (IOException);
+    //@ signals_only IOException;
     
     public static byte[] resourceToByteArray(final String name, final ClassLoader classLoader) throws IOException {
         return toByteArray(resourceToURL(name, classLoader));
@@ -1661,7 +1682,7 @@ public class IOUtils {
     //@ requires name != "";
     //@ ensures \typeof(\result) == \type(URL);
     //@ ensures \result != null;
-    //@ signals (IOException);
+    //@ signals_only IOException;
     
     public static URL resourceToURL(final String name) throws IOException {
         return resourceToURL(name, null);
@@ -1687,7 +1708,7 @@ public class IOUtils {
     //@ requires name != "";
     //@ ensures \typeof(\result) == \type(URL);
     //@ ensures \result != null;
-    //@ signals (IOException);
+    //@ signals_only IOException;
     
     public static URL resourceToURL(final String name, final ClassLoader classLoader) throws IOException {
         // What about the thread context class loader?
@@ -1738,10 +1759,11 @@ public class IOUtils {
      * @since 2.3
      */
     
+    //@ signals_only NullPointerException, IOException;
     //@ requires input != null;
     //@ ensures \result != null;
     /*@ signals (NullPointerException) 
-    @         (input != null);
+    @         (input == null);
     @*/
     //@ signals (IOException);
     
@@ -1771,10 +1793,11 @@ public class IOUtils {
      * @since 1.1
      */
     
+    //@ signals_only NullPointerException, IOException, java.nio.charset.UnsupportedCharsetException;
     //@ requires input != null;
     //@ ensures \result != null;
     /*@ signals (NullPointerException) 
-    @         (input != null);
+    @         (input == null);
     @*/
     //@ signals (IOException);
     //@ signals (java.nio.charset.UnsupportedCharsetException);
@@ -1797,10 +1820,11 @@ public class IOUtils {
      * @since 1.1
      */
     
+    //@ signals_only NullPointerException, IOException;
     //@ requires input != null;
     //@ ensures \result != null;
     /*@ signals (NullPointerException) 
-    @         (input != null);
+    @         (input == null);
     @*/
     //@ signals (IOException);
     
@@ -1846,10 +1870,11 @@ public class IOUtils {
      * @since 1.2
      */
     
+    //@ signals_only IllegalArgumentException;
     //@ requires reader != null;
     //@ ensures \result != null;
     /*@ signals (IllegalArgumentException) 
-    @         (reader != null);
+    @         (reader == null);
     @*/
     
     public static LineIterator lineIterator(final Reader reader) {
@@ -1887,10 +1912,11 @@ public class IOUtils {
      * @since 2.3
      */
     
+    //@ signals_only IllegalArgumentException, IOException;
     //@ requires input != null;
     //@ ensures \result != null;
     /*@ signals (IllegalArgumentException) 
-    @         (input != null);
+    @         (input == null);
     @*/
     //@ signals (IOException);
     
@@ -1932,10 +1958,11 @@ public class IOUtils {
      * @since 1.2
      */
     
+    //@ signals_only IllegalArgumentException, IOException, java.nio.charset.UnsupportedCharsetException;
     //@ requires input != null;
     //@ ensures \result != null;
     /*@ signals (IllegalArgumentException) 
-    @         (input != null);
+    @         (input == null);
     @*/
     //@ signals (IOException);
     //@ signals (java.nio.charset.UnsupportedCharsetException);
@@ -1993,11 +2020,10 @@ public class IOUtils {
      * @since 2.0
      */
     
+    //@ signals_only IOException, java.nio.charset.UnsupportedCharsetException;
     //@ requires input != null;
     //@ ensures \result != null;
     //@ ensures \typeof(\result) == \type(InputStream);
-    //@ signals (IOException);
-    //@ signals (java.nio.charset.UnsupportedCharsetException);
     
     public static InputStream toInputStream(final CharSequence input, final String encoding) throws IOException {
         return toInputStream(input, Charsets.toCharset(encoding));
@@ -2057,8 +2083,7 @@ public class IOUtils {
     //@ requires input != null;
     //@ ensures \result != null;
     //@ ensures \typeof(\result) == \type(InputStream);
-    //@ signals (IOException);
-    //@ signals (java.nio.charset.UnsupportedCharsetException);
+    //@ signals_only IOException, java.nio.charset.UnsupportedCharsetException;
     
     public static InputStream toInputStream(final String input, final String encoding) throws IOException {
         final byte[] bytes = input.getBytes(Charsets.toCharset(encoding));
@@ -2081,9 +2106,10 @@ public class IOUtils {
     
     //@ requires output != null;
     /*@ signals (NullPointerException)
-      @         output != null;
+      @         output == null;
       @*/
     //@ signals (IOException);
+    //@ signals_only NullPointerException, IOException;
     
     public static void write(final byte[] data, final OutputStream output)
             throws IOException {
@@ -2107,9 +2133,10 @@ public class IOUtils {
     
     //@ requires output != null;
     /*@ signals (NullPointerException)
-      @         output != null;
+      @         output == null;
       @*/
     //@ signals (IOException);
+    //@ signals_only NullPointerException, IOException;
     
     public static void writeChunked(final byte[] data, final OutputStream output)
             throws IOException {
@@ -2161,9 +2188,10 @@ public class IOUtils {
     
     //@ requires output != null;
     /*@ signals (NullPointerException)
-      @         output != null;
+      @         output == null;
       @*/
     //@ signals (IOException);
+    //@ signals_only NullPointerException, IOException;
     
     public static void write(final byte[] data, final Writer output, final Charset encoding) throws IOException {
         if (data != null) {
@@ -2192,9 +2220,10 @@ public class IOUtils {
      * @since 1.1
      */
     
+    //@ signals_only NullPointerException, IOException, java.nio.charset.UnsupportedCharsetException;
     //@ requires output != null;
     /*@ signals (NullPointerException)
-      @         output != null;
+      @         output == null;
       @*/
     //@ signals (IOException);
     //@ signals (java.nio.charset.UnsupportedCharsetException);
@@ -2216,12 +2245,12 @@ public class IOUtils {
      * @throws IOException          if an I/O error occurs
      * @since 1.1
      */
-    
+   
+    //@ signals_only NullPointerException, IOException;
     //@ requires output != null;
     /*@ signals (NullPointerException)
-      @         output != null;
+      @         output == null;
       @*/
-    //@ signals (IOException);
     
     public static void write(final char[] data, final Writer output) throws IOException {
         if (data != null) {
@@ -2244,9 +2273,9 @@ public class IOUtils {
     
     //@ requires output != null;
     /*@ signals (NullPointerException)
-      @         output != null;
+      @         output == null;
       @*/
-    //@ signals (IOException);
+    //@ signals_only NullPointerException, IOException, java.nio.charset.UnsupportedCharsetException;
     
     public static void writeChunked(final char[] data, final Writer output) throws IOException {
         if (data != null) {
@@ -2300,9 +2329,9 @@ public class IOUtils {
     
     //@ requires output != null;
     /*@ signals (NullPointerException)
-      @         output != null;
+      @         output == null;
       @*/
-    //@ signals (IOException);
+    //@ signals_only NullPointerException, IOException;
     
     public static void write(final char[] data, final OutputStream output, final Charset encoding) throws IOException {
         if (data != null) {
@@ -2333,10 +2362,9 @@ public class IOUtils {
     
     //@ requires output != null;
     /*@ signals (NullPointerException)
-      @         output != null;
+      @         output == null;
       @*/
-    //@ signals (IOException);
-    //@ signals (java.nio.charset.UnsupportedCharsetException);
+    //@ signals_only NullPointerException, IOException, java.nio.charset.UnsupportedCharsetException;
     
     public static void write(final char[] data, final OutputStream output, final String encoding)
             throws IOException {
@@ -2355,6 +2383,13 @@ public class IOUtils {
      * @throws IOException          if an I/O error occurs
      * @since 2.0
      */
+    
+    //@ requires output != null;
+    /*@ signals (NullPointerException)
+      @         output == null;
+      @*/
+    //@ signals_only NullPointerException, IOException;
+    
     public static void write(final CharSequence data, final Writer output) throws IOException {
         if (data != null) {
             write(data.toString(), output);
@@ -2394,6 +2429,13 @@ public class IOUtils {
      * @throws IOException          if an I/O error occurs
      * @since 2.3
      */
+    
+    //@ requires output != null;
+    /*@ signals (NullPointerException)
+      @         output == null;
+      @*/
+    //@ signals_only NullPointerException, IOException;
+    
     public static void write(final CharSequence data, final OutputStream output, final Charset encoding)
             throws IOException {
         if (data != null) {
@@ -2419,6 +2461,13 @@ public class IOUtils {
      * .UnsupportedEncodingException} in version 2.2 if the encoding is not supported.
      * @since 2.0
      */
+    
+    //@ requires output != null;
+    /*@ signals (NullPointerException)
+      @         output == null;
+      @*/
+    //@ signals_only NullPointerException, IOException, java.nio.charset.UnsupportedCharsetException;
+    
     public static void write(final CharSequence data, final OutputStream output, final String encoding)
             throws IOException {
         write(data, output, Charsets.toCharset(encoding));
@@ -2436,6 +2485,13 @@ public class IOUtils {
      * @throws IOException          if an I/O error occurs
      * @since 1.1
      */
+    
+    //@ requires output != null;
+    /*@ signals (NullPointerException)
+      @         output == null;
+      @*/
+    //@ signals_only NullPointerException, IOException;
+    
     public static void write(final String data, final Writer output) throws IOException {
         if (data != null) {
             output.write(data);
@@ -2475,6 +2531,13 @@ public class IOUtils {
      * @throws IOException          if an I/O error occurs
      * @since 2.3
      */
+    
+    //@ requires output != null;
+    /*@ signals (NullPointerException)
+      @         output == null;
+      @*/
+    //@ signals_only NullPointerException, IOException;
+    
     public static void write(final String data, final OutputStream output, final Charset encoding) throws IOException {
         if (data != null) {
             output.write(data.getBytes(Charsets.toCharset(encoding)));
@@ -2499,6 +2562,13 @@ public class IOUtils {
      * .UnsupportedEncodingException} in version 2.2 if the encoding is not supported.
      * @since 1.1
      */
+    
+    //@ requires output != null;
+    /*@ signals (NullPointerException)
+      @         output == null;
+      @*/
+    //@ signals_only NullPointerException, IOException, java.nio.charset.UnsupportedCharsetException;
+    
     public static void write(final String data, final OutputStream output, final String encoding)
             throws IOException {
         write(data, output, Charsets.toCharset(encoding));
@@ -2607,6 +2677,16 @@ public class IOUtils {
      * @throws IOException          if an I/O error occurs
      * @since 2.3
      */
+    
+    //@ signals_only NullPointerException, IOException;
+    //@ requires output != null;
+    /*@ signals (NullPointerException)
+      @         output == null;
+      @*/
+    //@ signals (IOException);
+    //@ ensures ( (lines != null) || (output == \old(output)) );
+    //@ ensures lineEnding != null;
+    
     public static void writeLines(final Collection<?> lines, String lineEnding, final OutputStream output,
                                   final Charset encoding) throws IOException {
         if (lines == null) {
@@ -2643,6 +2723,15 @@ public class IOUtils {
      *                                                      encoding is not supported.
      * @since 1.1
      */
+    
+    //@ requires output != null;
+    /*@ signals (NullPointerException)
+      @         output == null;
+      @*/
+    //@ signals_only NullPointerException, IOException, java.nio.charset.UnsupportedCharsetException;
+    //@ ensures ( (lines != null) || (output == \old(output)) );
+    //@ ensures lineEnding != null;
+    
     public static void writeLines(final Collection<?> lines, final String lineEnding,
                                   final OutputStream output, final String encoding) throws IOException {
         writeLines(lines, lineEnding, output, Charsets.toCharset(encoding));
@@ -2659,6 +2748,14 @@ public class IOUtils {
      * @throws IOException          if an I/O error occurs
      * @since 1.1
      */
+    
+    //@ signals_only NullPointerException, IOException;
+    //@ requires writer != null;
+    /*@ signals (NullPointerException)
+      @         writer == null;
+      @*/
+    //@ signals (IOException);
+    
     public static void writeLines(final Collection<?> lines, String lineEnding,
                                   final Writer writer) throws IOException {
         if (lines == null) {
@@ -2697,6 +2794,15 @@ public class IOUtils {
      * @throws IOException          if an I/O error occurs
      * @since 1.1
      */
+    
+    //@ signals_only NullPointerException, IOException;
+    //@ requires input != null;
+    //@ requires output != null;
+    //@
+    /*@ signals (NullPointerException)
+      @         (output == null || input == null);
+      @*/
+    
     public static int copy(final InputStream input, final OutputStream output) throws IOException {
         final long count = copyLarge(input, output);
         if (count > Integer.MAX_VALUE) {
@@ -2720,6 +2826,15 @@ public class IOUtils {
      * @throws IOException          if an I/O error occurs
      * @since 2.5
      */
+    
+    //@ signals_only NullPointerException, IOException;
+    //@ requires input != null;
+    //@ requires output != null;
+    //@
+    /*@ signals (NullPointerException)
+      @         (output == null || input == null);
+      @*/
+    
     public static long copy(final InputStream input, final OutputStream output, final int bufferSize)
             throws IOException {
         return copyLarge(input, output, new byte[bufferSize]);
@@ -2741,6 +2856,15 @@ public class IOUtils {
      * @throws IOException          if an I/O error occurs
      * @since 1.3
      */
+    
+    //@ signals_only NullPointerException, IOException;
+    //@ requires input != null;
+    //@ requires output != null;
+    //@
+    /*@ signals (NullPointerException)
+      @         (output == null || input == null);
+      @*/
+    
     public static long copyLarge(final InputStream input, final OutputStream output)
             throws IOException {
         return copy(input, output, DEFAULT_BUFFER_SIZE);
@@ -2762,6 +2886,15 @@ public class IOUtils {
      * @throws IOException          if an I/O error occurs
      * @since 2.2
      */
+    
+    //@ signals_only NullPointerException, IOException;
+    //@ requires input != null;
+    //@ requires output != null;
+    //@
+    /*@ signals (NullPointerException)
+      @         (output == null || input == null);
+      @*/
+    
     public static long copyLarge(final InputStream input, final OutputStream output, final byte[] buffer)
             throws IOException {
         long count = 0;
@@ -2797,6 +2930,15 @@ public class IOUtils {
      * @throws IOException          if an I/O error occurs
      * @since 2.2
      */
+    
+    //@ signals_only NullPointerException, IOException;
+    //@ requires input != null;
+    //@ requires output != null;
+    //@
+    /*@ signals (NullPointerException)
+      @         (output == null || input == null);
+      @*/
+    
     public static long copyLarge(final InputStream input, final OutputStream output, final long inputOffset,
                                  final long length) throws IOException {
         return copyLarge(input, output, inputOffset, length, new byte[DEFAULT_BUFFER_SIZE]);
@@ -2826,6 +2968,15 @@ public class IOUtils {
      * @throws IOException          if an I/O error occurs
      * @since 2.2
      */
+    
+    //@ signals_only NullPointerException, IOException;
+    //@ requires input != null;
+    //@ requires output != null;
+    //@
+    /*@ signals (NullPointerException)
+      @         (output == null || input == null);
+      @*/
+    
     public static long copyLarge(final InputStream input, final OutputStream output,
                                  final long inputOffset, final long length, final byte[] buffer) throws IOException {
         if (inputOffset > 0) {
@@ -2890,6 +3041,15 @@ public class IOUtils {
      * @throws IOException          if an I/O error occurs
      * @since 2.3
      */
+    
+    //@ signals_only NullPointerException, IOException;
+    //@ requires input != null;
+    //@ requires output != null;
+    //@
+    /*@ signals (NullPointerException)
+      @         (output == null || input == null);
+      @*/
+    
     public static void copy(final InputStream input, final Writer output, final Charset inputEncoding)
             throws IOException {
         final InputStreamReader in = new InputStreamReader(input, Charsets.toCharset(inputEncoding));
@@ -2918,6 +3078,15 @@ public class IOUtils {
      *                                                      encoding is not supported.
      * @since 1.1
      */
+    
+    //@ signals_only NullPointerException, IOException, java.nio.charset.UnsupportedCharsetException;
+    //@ requires input != null;
+    //@ requires output != null;
+    //@
+    /*@ signals (NullPointerException)
+      @         (output == null || input == null);
+      @*/
+    
     public static void copy(final InputStream input, final Writer output, final String inputEncoding)
             throws IOException {
         copy(input, output, Charsets.toCharset(inputEncoding));
@@ -2944,6 +3113,17 @@ public class IOUtils {
      * @throws IOException          if an I/O error occurs
      * @since 1.1
      */
+    
+    //@ signals_only NullPointerException, IOException;
+    //@ requires input != null;
+    //@ requires output != null;
+    //@
+    /*@ signals (NullPointerException)
+      @         (output == null || input == null);
+      @*/
+    //@ ensures (\result <= Integer.MAX_VALUE && \result >= 0) || (\result == -1);
+    //@ ensures \typeof(\result) == \type(int);
+    
     public static int copy(final Reader input, final Writer output) throws IOException {
         final long count = copyLarge(input, output);
         if (count > Integer.MAX_VALUE) {
@@ -2967,6 +3147,15 @@ public class IOUtils {
      * @throws IOException          if an I/O error occurs
      * @since 1.3
      */
+    
+    //@ signals_only NullPointerException, IOException;
+    //@ requires input != null;
+    //@ requires output != null;
+    //@
+    /*@ signals (NullPointerException)
+      @         (output == null || input == null);
+      @*/
+    
     public static long copyLarge(final Reader input, final Writer output) throws IOException {
         return copyLarge(input, output, new char[DEFAULT_BUFFER_SIZE]);
     }
@@ -2986,6 +3175,15 @@ public class IOUtils {
      * @throws IOException          if an I/O error occurs
      * @since 2.2
      */
+    
+    //@ signals_only NullPointerException, IOException;
+    //@ requires input != null;
+    //@ requires output != null;
+    //@
+    /*@ signals (NullPointerException)
+      @         (output == null || input == null);
+      @*/
+    
     public static long copyLarge(final Reader input, final Writer output, final char[] buffer) throws IOException {
         long count = 0;
         int n;
@@ -3015,6 +3213,15 @@ public class IOUtils {
      * @throws IOException          if an I/O error occurs
      * @since 2.2
      */
+    
+    //@ signals_only NullPointerException, IOException;
+    //@ requires input != null;
+    //@ requires output != null;
+    //@
+    /*@ signals (NullPointerException)
+      @         (output == null || input == null);
+      @*/
+    
     public static long copyLarge(final Reader input, final Writer output, final long inputOffset, final long length)
             throws IOException {
         return copyLarge(input, output, inputOffset, length, new char[DEFAULT_BUFFER_SIZE]);
@@ -3039,6 +3246,15 @@ public class IOUtils {
      * @throws IOException          if an I/O error occurs
      * @since 2.2
      */
+    
+    //@ signals_only NullPointerException, IOException;
+    //@ requires input != null;
+    //@ requires output != null;
+    //@
+    /*@ signals (NullPointerException)
+      @         (output == null || input == null);
+      @*/
+    
     public static long copyLarge(final Reader input, final Writer output, final long inputOffset, final long length,
                                  final char[] buffer)
             throws IOException {
@@ -3114,6 +3330,15 @@ public class IOUtils {
      * @throws IOException          if an I/O error occurs
      * @since 2.3
      */
+    
+    //@ signals_only NullPointerException, IOException;
+    //@ requires input != null;
+    //@ requires output != null;
+    //@
+    /*@ signals (NullPointerException)
+      @         (output == null || input == null);
+      @*/
+
     public static void copy(final Reader input, final OutputStream output, final Charset outputEncoding)
             throws IOException {
         final OutputStreamWriter out = new OutputStreamWriter(output, Charsets.toCharset(outputEncoding));
@@ -3149,6 +3374,15 @@ public class IOUtils {
      *                                                      encoding is not supported.
      * @since 1.1
      */
+    
+    //@ signals_only NullPointerException, IOException, java.nio.charset.UnsupportedCharsetException;
+    //@ requires input != null;
+    //@ requires output != null;
+    //@
+    /*@ signals (NullPointerException)
+      @         (output == null || input == null);
+      @*/
+    
     public static void copy(final Reader input, final OutputStream output, final String outputEncoding)
             throws IOException {
         copy(input, output, Charsets.toCharset(outputEncoding));
@@ -3171,6 +3405,15 @@ public class IOUtils {
      * @throws NullPointerException if either input is null
      * @throws IOException          if an I/O error occurs
      */
+    
+    //@ signals_only NullPointerException, IOException;
+    //@ requires input1 != null;
+    //@ requires input2 != null;
+    /*@ signals (NullPointerException)
+      @         (input1 == null || input2 == null);
+      @*/
+    //@ ensures \result == (input1.equals(input2));
+    
     public static boolean contentEquals(InputStream input1, InputStream input2)
             throws IOException {
         if (input1 == input2) {
@@ -3211,6 +3454,15 @@ public class IOUtils {
      * @throws IOException          if an I/O error occurs
      * @since 1.1
      */
+    
+    //@ signals_only NullPointerException, IOException;
+    //@ requires input1 != null;
+    //@ requires input2 != null;
+    /*@ signals (NullPointerException)
+      @         (input1 == null || input2 == null);
+      @*/
+    //@ ensures \result == (input1.equals(input2));
+    
     public static boolean contentEquals(Reader input1, Reader input2)
             throws IOException {
         if (input1 == input2) {
@@ -3247,6 +3499,15 @@ public class IOUtils {
      * @throws IOException          if an I/O error occurs
      * @since 2.2
      */
+    
+    //@ signals_only NullPointerException, IOException;
+    //@ requires input1 != null;
+    //@ requires input2 != null;
+    /*@ signals (NullPointerException)
+      @         (input1 == null || input2 == null);
+      @*/
+    //@ ensures \result == (input1.equals(input2));
+    
     public static boolean contentEqualsIgnoreEOL(final Reader input1, final Reader input2)
             throws IOException {
         if (input1 == input2) {
@@ -3285,7 +3546,11 @@ public class IOUtils {
      * @see <a href="https://issues.apache.org/jira/browse/IO-203">IO-203 - Add skipFully() method for InputStreams</a>
      * @since 2.0
      */
-    public static long skip(final InputStream input, final long toSkip) throws IOException {
+    
+    //@ signals_only IOException, IllegalArgumentException;
+    //@ signals (IllegalArgumentException) toSkip < 0;
+    
+    public static /*@ pure; @*/ long skip(final InputStream input, final long toSkip) throws IOException {
         if (toSkip < 0) {
             throw new IllegalArgumentException("Skip count must be non-negative, actual: " + toSkip);
         }
@@ -3321,7 +3586,11 @@ public class IOUtils {
      * @throws IllegalArgumentException if toSkip is negative
      * @since 2.5
      */
-    public static long skip(final ReadableByteChannel input, final long toSkip) throws IOException {
+    
+    //@ signals_only IOException, IllegalArgumentException;
+    //@ signals (IllegalArgumentException) toSkip < 0;
+    
+    public static /*@ pure; @*/ long skip(final ReadableByteChannel input, final long toSkip) throws IOException {
         if (toSkip < 0) {
             throw new IllegalArgumentException("Skip count must be non-negative, actual: " + toSkip);
         }
@@ -3360,7 +3629,11 @@ public class IOUtils {
      * @see <a href="https://issues.apache.org/jira/browse/IO-203">IO-203 - Add skipFully() method for InputStreams</a>
      * @since 2.0
      */
-    public static long skip(final Reader input, final long toSkip) throws IOException {
+    
+    //@ signals_only IOException, IllegalArgumentException;
+    //@ signals (IllegalArgumentException) toSkip < 0;
+    
+    public static /*@ pure; @*/ long skip(final Reader input, final long toSkip) throws IOException {
         if (toSkip < 0) {
             throw new IllegalArgumentException("Skip count must be non-negative, actual: " + toSkip);
         }
@@ -3403,6 +3676,11 @@ public class IOUtils {
      * @see InputStream#skip(long)
      * @since 2.0
      */
+    
+    //@ signals_only IOException, IllegalArgumentException, EOFException;
+    //@ signals (IllegalArgumentException) toSkip < 0;
+    //@ signals (EOFException) skip(input, toSkip) != toSkip;
+    
     public static void skipFully(final InputStream input, final long toSkip) throws IOException {
         if (toSkip < 0) {
             throw new IllegalArgumentException("Bytes to skip must not be negative: " + toSkip);
@@ -3423,6 +3701,11 @@ public class IOUtils {
      * @throws EOFException             if the number of bytes skipped was incorrect
      * @since 2.5
      */
+    
+    //@ signals_only IOException, IllegalArgumentException, EOFException;
+    //@ signals (IllegalArgumentException) toSkip < 0;
+    //@ signals (EOFException) skip(input, toSkip) != toSkip;
+    
     public static void skipFully(final ReadableByteChannel input, final long toSkip) throws IOException {
         if (toSkip < 0) {
             throw new IllegalArgumentException("Bytes to skip must not be negative: " + toSkip);
@@ -3452,6 +3735,11 @@ public class IOUtils {
      * @see Reader#skip(long)
      * @since 2.0
      */
+    
+    //@ signals_only IOException, IllegalArgumentException, EOFException;
+    //@ signals (IllegalArgumentException) toSkip < 0;
+    //@ signals (EOFException) skip(input, toSkip) != toSkip;
+    
     public static void skipFully(final Reader input, final long toSkip) throws IOException {
         final long skipped = skip(input, toSkip);
         if (skipped != toSkip) {
@@ -3474,7 +3762,11 @@ public class IOUtils {
      * @throws IOException if a read error occurs
      * @since 2.2
      */
-    public static int read(final Reader input, final char[] buffer, final int offset, final int length)
+    
+    //@ signals_only IOException;
+    //@ ensures \result <= length;
+    
+    public static /*@ pure; @*/ int read(final Reader input, final char[] buffer, final int offset, final int length)
             throws IOException {
         if (length < 0) {
             throw new IllegalArgumentException("Length must not be negative: " + length);
@@ -3503,6 +3795,10 @@ public class IOUtils {
      * @throws IOException if a read error occurs
      * @since 2.2
      */
+    
+    //@ signals_only IOException;
+    //@ ensures \result <= buffer.length;
+    
     public static int read(final Reader input, final char[] buffer) throws IOException {
         return read(input, buffer, 0, buffer.length);
     }
@@ -3521,7 +3817,11 @@ public class IOUtils {
      * @throws IOException if a read error occurs
      * @since 2.2
      */
-    public static int read(final InputStream input, final byte[] buffer, final int offset, final int length)
+    
+    //@ signals_only IOException;
+    //@ ensures \result <= buffer.length;
+    
+    public static /*@ pure; @*/ int read(final InputStream input, final byte[] buffer, final int offset, final int length)
             throws IOException {
         if (length < 0) {
             throw new IllegalArgumentException("Length must not be negative: " + length);
@@ -3550,6 +3850,10 @@ public class IOUtils {
      * @throws IOException if a read error occurs
      * @since 2.2
      */
+    
+    //@ signals_only IOException;
+    //@ ensures \result <= buffer.length;
+    
     public static int read(final InputStream input, final byte[] buffer) throws IOException {
         return read(input, buffer, 0, buffer.length);
     }
@@ -3567,7 +3871,11 @@ public class IOUtils {
      * @throws IOException if a read error occurs
      * @since 2.5
      */
-    public static int read(final ReadableByteChannel input, final ByteBuffer buffer) throws IOException {
+    
+    //@ signals_only IOException;
+    //@ ensures \result <= buffer.remaining();
+    
+    public static /*@ pure; @*/ int read(final ReadableByteChannel input, final ByteBuffer buffer) throws IOException {
         final int length = buffer.remaining();
         while (buffer.remaining() > 0) {
             final int count = input.read(buffer);
@@ -3593,6 +3901,11 @@ public class IOUtils {
      * @throws EOFException             if the number of characters read was incorrect
      * @since 2.2
      */
+    
+    //@ signals_only IOException, IllegalArgumentException, EOFException;
+    //@ signals (IllegalArgumentException) length < 0;
+    //@ signals (EOFException) read(input, buffer, offset, length) != length;
+    
     public static void readFully(final Reader input, final char[] buffer, final int offset, final int length)
             throws IOException {
         final int actual = read(input, buffer, offset, length);
@@ -3614,6 +3927,12 @@ public class IOUtils {
      * @throws EOFException             if the number of characters read was incorrect
      * @since 2.2
      */
+    
+    //@ signals_only IOException, IllegalArgumentException, EOFException;
+    //@ signals (IllegalArgumentException) buffer.length < 0;
+    
+    //How JMLize the EOFException?
+    
     public static void readFully(final Reader input, final char[] buffer) throws IOException {
         readFully(input, buffer, 0, buffer.length);
     }
@@ -3634,6 +3953,11 @@ public class IOUtils {
      * @throws EOFException             if the number of bytes read was incorrect
      * @since 2.2
      */
+    
+    //@ signals_only IOException, IllegalArgumentException, EOFException;
+    //@ signals (IllegalArgumentException) length < 0;
+    //@ signals (EOFException) read(input, buffer, offset, length) != length;
+    
     public static void readFully(final InputStream input, final byte[] buffer, final int offset, final int length)
             throws IOException {
         final int actual = read(input, buffer, offset, length);
@@ -3656,6 +3980,12 @@ public class IOUtils {
      * @throws EOFException             if the number of bytes read was incorrect
      * @since 2.2
      */
+    
+    //@ signals_only IOException, IllegalArgumentException, EOFException;
+    //@ signals (IllegalArgumentException) buffer.length < 0;
+    
+    //How JMLize EOFException?
+    
     public static void readFully(final InputStream input, final byte[] buffer) throws IOException {
         readFully(input, buffer, 0, buffer.length);
     }
@@ -3674,6 +4004,11 @@ public class IOUtils {
      * @throws EOFException             if the number of bytes read was incorrect
      * @since 2.5
      */
+    
+    //@ signals_only IOException, IllegalArgumentException, EOFException;
+    //@ signals (IllegalArgumentException) length < 0;
+    //@ ensures (\result).length == length;
+    
     public static byte[] readFully(final InputStream input, final int length) throws IOException {
         final byte[] buffer = new byte[length];
         readFully(input, buffer, 0, buffer.length);
@@ -3692,6 +4027,11 @@ public class IOUtils {
      * @throws EOFException if the number of bytes read was incorrect
      * @since 2.5
      */
+    
+    //@ signals_only IOException, IllegalArgumentException, EOFException;
+    //@ signals (IllegalArgumentException) buffer.remaining() < 0;
+    //@ signals (EOFException) read(input, buffer) != buffer.remaining();
+    
     public static void readFully(final ReadableByteChannel input, final ByteBuffer buffer) throws IOException {
         final int expected = buffer.remaining();
         final int actual = read(input, buffer);
