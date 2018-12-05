@@ -54,7 +54,7 @@ public class LineIterator implements Iterator<String>, Closeable {
     /** The reader that is being read. */
     private final BufferedReader bufferedReader;
     /** The current line. */
-    private String cachedLine;
+    private /*@ spec_public @*/ String cachedLine;
     /** A flag indicating if the iterator has been fully read. */
     private boolean finished = false;
 
@@ -89,11 +89,11 @@ public class LineIterator implements Iterator<String>, Closeable {
      * @throws IllegalStateException if an IO exception occurs
      */
 
-    //@ ensures \result == (cachedLine != null);
-    //@ signals_only IllegalStateException;
+    //@ also ensures \result == (cachedLine != null);
+    //@ also signals_only IllegalStateException;
 
     @Override
-    public /*@ pure; @*/ boolean hasNext() {
+    public /*@ pure @*/ boolean hasNext() {
         if (cachedLine != null) {
             return true;
         } else if (finished) {
@@ -139,7 +139,7 @@ public class LineIterator implements Iterator<String>, Closeable {
      * @throws NoSuchElementException if there is no line to return
      */
 
-    //@ signals (NoSuchElementException) nextLine() == null;
+    //@ also signals (NoSuchElementException) nextLine() == null;
 
     @Override
     public String next() {
@@ -155,7 +155,7 @@ public class LineIterator implements Iterator<String>, Closeable {
 
     //@ signals (NoSuchElementException) !hasNext();
 
-    public /*@ pure; @*/ String nextLine() {
+    public /*@ pure @*/ String nextLine() {
         if (!hasNext()) {
             throw new NoSuchElementException("No more lines");
         }
@@ -174,7 +174,7 @@ public class LineIterator implements Iterator<String>, Closeable {
      * @throws IOException if closing the underlying {@code Reader} fails.
      */
 
-    //@ signals_only IOException;
+    //@ also signals_only IOException;
 
     @Override
     public void close() throws IOException {
@@ -191,7 +191,7 @@ public class LineIterator implements Iterator<String>, Closeable {
      * @throws UnsupportedOperationException always
      */
 
-    //@ signals_only UnsupportedOperationException;
+    //@ also signals_only UnsupportedOperationException;
     
     @Override
     public void remove() {
