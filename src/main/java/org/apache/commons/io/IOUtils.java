@@ -3550,7 +3550,7 @@ public class IOUtils {
     //@ signals_only IOException, IllegalArgumentException;
     //@ signals (IllegalArgumentException) toSkip < 0;
     
-    public static /*@ pure; @*/ long skip(final InputStream input, final long toSkip) throws IOException {
+    public static /*@ pure @*/ long skip(final InputStream input, final long toSkip) throws IOException {
         if (toSkip < 0) {
             throw new IllegalArgumentException("Skip count must be non-negative, actual: " + toSkip);
         }
@@ -3590,7 +3590,7 @@ public class IOUtils {
     //@ signals_only IOException, IllegalArgumentException;
     //@ signals (IllegalArgumentException) toSkip < 0;
     
-    public static /*@ pure; @*/ long skip(final ReadableByteChannel input, final long toSkip) throws IOException {
+    public static /*@ pure @*/ long skip(final ReadableByteChannel input, final long toSkip) throws IOException {
         if (toSkip < 0) {
             throw new IllegalArgumentException("Skip count must be non-negative, actual: " + toSkip);
         }
@@ -3633,7 +3633,7 @@ public class IOUtils {
     //@ signals_only IOException, IllegalArgumentException;
     //@ signals (IllegalArgumentException) toSkip < 0;
     
-    public static /*@ pure; @*/ long skip(final Reader input, final long toSkip) throws IOException {
+    public static /*@ pure @*/ long skip(final Reader input, final long toSkip) throws IOException {
         if (toSkip < 0) {
             throw new IllegalArgumentException("Skip count must be non-negative, actual: " + toSkip);
         }
@@ -3766,7 +3766,7 @@ public class IOUtils {
     //@ signals_only IOException;
     //@ ensures \result <= length;
     
-    public static /*@ pure; @*/ int read(final Reader input, final char[] buffer, final int offset, final int length)
+    public static /*@ pure @*/ int read(final Reader input, final char[] buffer, final int offset, final int length)
             throws IOException {
         if (length < 0) {
             throw new IllegalArgumentException("Length must not be negative: " + length);
@@ -3821,7 +3821,7 @@ public class IOUtils {
     //@ signals_only IOException;
     //@ ensures \result <= buffer.length;
     
-    public static /*@ pure; @*/ int read(final InputStream input, final byte[] buffer, final int offset, final int length)
+    public static /*@ pure @*/ int read(final InputStream input, final byte[] buffer, final int offset, final int length)
             throws IOException {
         if (length < 0) {
             throw new IllegalArgumentException("Length must not be negative: " + length);
@@ -3875,7 +3875,7 @@ public class IOUtils {
     //@ signals_only IOException;
     //@ ensures \result <= buffer.remaining();
     
-    public static /*@ pure; @*/ int read(final ReadableByteChannel input, final ByteBuffer buffer) throws IOException {
+    public static /*@ pure @*/ int read(final ReadableByteChannel input, final ByteBuffer buffer) throws IOException {
         final int length = buffer.remaining();
         while (buffer.remaining() > 0) {
             final int count = input.read(buffer);
