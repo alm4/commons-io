@@ -193,7 +193,7 @@ public class ByteArrayOutputStream extends OutputStream {
      * @since 1.4
      */
 
-    //@ signals IOException;
+    //@ signals (IOException);
     public synchronized int write(final InputStream in) throws IOException {
         int readCount = 0;
         int inBufferPos = count - filledBufferSum;
@@ -231,7 +231,7 @@ public class ByteArrayOutputStream extends OutputStream {
      * but it has to now due to backwards compatibility)
      */
 
-    //@ signals_only;
+    //@ also signals_only \nothing;
 
     @Override
     public void close() throws IOException {
