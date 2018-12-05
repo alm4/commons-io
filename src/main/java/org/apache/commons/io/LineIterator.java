@@ -64,6 +64,10 @@ public class LineIterator implements Iterator<String>, Closeable {
      * @param reader the <code>Reader</code> to read from, not null
      * @throws IllegalArgumentException if the reader is null
      */
+
+    //@ requires reader != null;
+    //@ signals (IllegalArgumentException) reader == null;
+
     public LineIterator(final Reader reader) throws IllegalArgumentException {
         if (reader == null) {
             throw new IllegalArgumentException("Reader must not be null");
@@ -84,8 +88,12 @@ public class LineIterator implements Iterator<String>, Closeable {
      * @return {@code true} if the Reader has more lines
      * @throws IllegalStateException if an IO exception occurs
      */
+
+    //@ ensures \result == (cachedLine != null);
+    //@ signals_only IllegalStateException;
+
     @Override
-    public boolean hasNext() {
+    public /*@ pure; @*/ boolean hasNext() {
         if (cachedLine != null) {
             return true;
         } else if (finished) {
@@ -119,6 +127,7 @@ public class LineIterator implements Iterator<String>, Closeable {
      * @param line  the line that is to be validated
      * @return true if valid, false to remove from the iterator
      */
+
     protected boolean isValidLine(final String line) {
         return true;
     }
@@ -129,6 +138,9 @@ public class LineIterator implements Iterator<String>, Closeable {
      * @return the next line from the input
      * @throws NoSuchElementException if there is no line to return
      */
+
+    //@ signals (NoSuchElementException) nextLine() == null;
+
     @Override
     public String next() {
         return nextLine();
@@ -140,7 +152,10 @@ public class LineIterator implements Iterator<String>, Closeable {
      * @return the next line from the input
      * @throws NoSuchElementException if there is no line to return
      */
-    public String nextLine() {
+
+    //@ signals (NoSuchElementException) !hasNext();
+
+    public /*@ pure; @*/ String nextLine() {
         if (!hasNext()) {
             throw new NoSuchElementException("No more lines");
         }
@@ -158,6 +173,9 @@ public class LineIterator implements Iterator<String>, Closeable {
      *
      * @throws IOException if closing the underlying {@code Reader} fails.
      */
+
+    //@ signals_only IOException;
+
     @Override
     public void close() throws IOException {
         finished = true;
@@ -172,6 +190,9 @@ public class LineIterator implements Iterator<String>, Closeable {
      *
      * @throws UnsupportedOperationException always
      */
+
+    //@ signals_only UnsupportedOperationException;
+    
     @Override
     public void remove() {
         throw new UnsupportedOperationException("Remove unsupported on LineIterator");
