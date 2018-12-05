@@ -87,6 +87,9 @@ public class ByteArrayOutputStream extends OutputStream {
      * @param size  the initial size
      * @throws IllegalArgumentException if size is negative
      */
+
+    //@ signals (IllegalArgumentException) size < 0;
+
     public ByteArrayOutputStream(final int size) {
         if (size < 0) {
             throw new IllegalArgumentException(
@@ -189,6 +192,8 @@ public class ByteArrayOutputStream extends OutputStream {
      * @throws IOException if an I/O error occurs while reading the input stream
      * @since 1.4
      */
+
+    //@ signals IOException;
     public synchronized int write(final InputStream in) throws IOException {
         int readCount = 0;
         int inBufferPos = count - filledBufferSum;
@@ -210,6 +215,9 @@ public class ByteArrayOutputStream extends OutputStream {
      * Return the current size of the byte array.
      * @return the current size of the byte array
      */
+
+    //@ ensures \result >= 0;
+
     public synchronized int size() {
         return count;
     }
@@ -222,6 +230,9 @@ public class ByteArrayOutputStream extends OutputStream {
      * @throws IOException never (this method should not declare this exception
      * but it has to now due to backwards compatibility)
      */
+
+    //@ signals_only;
+
     @Override
     public void close() throws IOException {
         //nop
@@ -254,6 +265,9 @@ public class ByteArrayOutputStream extends OutputStream {
      * @throws IOException if an I/O error occurs, such as if the stream is closed
      * @see java.io.ByteArrayOutputStream#writeTo(OutputStream)
      */
+
+    //@ signals_only IOException;
+
     public synchronized void writeTo(final OutputStream out) throws IOException {
         int remaining = count;
         for (final byte[] buf : buffers) {
@@ -287,6 +301,9 @@ public class ByteArrayOutputStream extends OutputStream {
      * @throws IOException if an I/O error occurs
      * @since 2.0
      */
+
+    //@ signals_only IOException;
+
     public static InputStream toBufferedInputStream(final InputStream input)
             throws IOException {
         return toBufferedInputStream(input, 1024);
@@ -314,6 +331,10 @@ public class ByteArrayOutputStream extends OutputStream {
      * @throws IOException if an I/O error occurs
      * @since 2.5
      */
+
+    //@ ensures \result != null;
+    //@ signals_only IOException;
+
     public static InputStream toBufferedInputStream(final InputStream input, final int size)
             throws IOException {
         // It does not matter if a ByteArrayOutputStream is not closed as close() is a no-op
@@ -333,6 +354,7 @@ public class ByteArrayOutputStream extends OutputStream {
      * @see #reset()
      * @since 2.5
      */
+
     public synchronized InputStream toInputStream() {
         int remaining = count;
         if (remaining == 0) {
@@ -400,6 +422,10 @@ public class ByteArrayOutputStream extends OutputStream {
      * @throws UnsupportedEncodingException if the encoding is not supported
      * @see java.io.ByteArrayOutputStream#toString(String)
      */
+
+    //@ ensures \result != null;
+    //@ signals_only UnsupportedEncodingException;
+
     public String toString(final String enc) throws UnsupportedEncodingException {
         return new String(toByteArray(), enc);
     }
@@ -413,6 +439,10 @@ public class ByteArrayOutputStream extends OutputStream {
      * @see java.io.ByteArrayOutputStream#toString(String)
      * @since 2.5
      */
+
+    //@ ensures \result != null;
+    //@ signals_only UnsupportedEncodingException;
+
     public String toString(final Charset charset) {
         return new String(toByteArray(), charset);
     }
