@@ -60,7 +60,7 @@ public class NullOutputStream extends OutputStream {
      * @throws IOException never
      */
 
-    //@ signals_only;
+    //@ also signals_only \nothing;
     @Override
     public void write(final byte[] b) throws IOException {
         //to /dev/null
