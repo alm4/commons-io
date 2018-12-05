@@ -90,6 +90,9 @@ public class Charsets {
      *            A charset or null.
      * @return the given Charset or the default Charset if the given Charset is null
      */
+
+    //@ ensures (charset != null) || (\result == Charset.defaultCharset());
+
     public static Charset toCharset(final Charset charset) {
         return charset == null ? Charset.defaultCharset() : charset;
     }
@@ -103,6 +106,9 @@ public class Charsets {
      * @throws java.nio.charset.UnsupportedCharsetException
      *             If the named charset is unavailable
      */
+
+    //@ signals_only java.nio.charset.UnsupportedCharsetException;
+    
     public static Charset toCharset(final String charset) {
         return charset == null ? Charset.defaultCharset() : Charset.forName(charset);
     }
