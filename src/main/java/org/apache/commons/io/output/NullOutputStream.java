@@ -59,6 +59,8 @@ public class NullOutputStream extends OutputStream {
      * @param b The bytes to write
      * @throws IOException never
      */
+
+    //@ signals_only;
     @Override
     public void write(final byte[] b) throws IOException {
         //to /dev/null
