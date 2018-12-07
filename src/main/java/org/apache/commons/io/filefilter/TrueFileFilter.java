@@ -54,6 +54,12 @@ public class TrueFileFilter implements IOFileFilter, Serializable {
      * @param file  the file to check (ignored)
      * @return true
      */
+
+    //@ requires \typeof(file) == \type(File);
+    //@ requires file != null;
+    //@ ensures \typeof(\result) == \type(boolean);
+    //@ ensures \result != null;
+
     @Override
     public boolean accept(final File file) {
         return true;
@@ -66,6 +72,14 @@ public class TrueFileFilter implements IOFileFilter, Serializable {
      * @param name  the filename (ignored)
      * @return true
      */
+
+    //@ requires \typeof(dir) == \type(File);
+    //@ requires dir != null;
+    //@ requires \typeof(name) == \type(String);
+    //@ requires name != null;
+    //@ ensures \typeof(\result) == \type(boolean);
+    //@ ensures \result != null;
+
     @Override
     public boolean accept(final File dir, final String name) {
         return true;
