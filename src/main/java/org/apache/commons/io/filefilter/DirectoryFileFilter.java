@@ -66,6 +66,12 @@ public class DirectoryFileFilter extends AbstractFileFilter implements Serializa
      * @param file  the File to check
      * @return true if the file is a directory
      */
+
+    //@ requires \typeof(file) == \type(File);
+    //@ requires file != null;
+    //@ ensures \typeof(\result) == \type(boolean);
+    //@ ensures \result != null;
+    
     @Override
     public boolean accept(final File file) {
         return file.isDirectory();
