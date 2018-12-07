@@ -185,6 +185,16 @@ public class FileUtils {
      * @return the file
      * @since 2.1
      */
+
+    //@ signals_only NullPointerException;
+    //@ requires \typeof(file) == \type(File);
+    //@ requires directory != null;
+    //@ requires \typeof(names) == \type(String...);
+    //@ requires names != null;
+    //@ ensures \typeof(file) == \type(File);
+    //@ ensures file != null;
+    //@ signals (NullPointerException e);
+
     public static File getFile(final File directory, final String... names) {
         if (directory == null) {
             throw new NullPointerException("directory must not be null");
@@ -206,6 +216,14 @@ public class FileUtils {
      * @return the file
      * @since 2.1
      */
+
+    //@ signals_only NullPointerException;
+    //@ requires \typeof(names) == \type(String...);
+    //@ requires names != null;
+    //@ ensures \typeof(file) == \type(File);
+    //@ ensures file != null;
+    //@ signals (NullPointerException e);
+
     public static File getFile(final String... names) {
         if (names == null) {
             throw new NullPointerException("names must not be null");
@@ -228,6 +246,10 @@ public class FileUtils {
      *
      * @since 2.0
      */
+
+    //@ ensures \typeof(\return) == \type(String);
+    //@ ensures \return != null;
+
     public static String getTempDirectoryPath() {
         return System.getProperty("java.io.tmpdir");
     }
@@ -239,6 +261,10 @@ public class FileUtils {
      *
      * @since 2.0
      */
+
+    //@ ensures \typeof(\return) == \type(File);
+    //@ ensures \return != null;
+
     public static File getTempDirectory() {
         return new File(getTempDirectoryPath());
     }
@@ -250,6 +276,10 @@ public class FileUtils {
      *
      * @since 2.0
      */
+
+    //@ ensures \typeof(\return) == \type(String);
+    //@ ensures \return != null;
+
     public static String getUserDirectoryPath() {
         return System.getProperty("user.home");
     }
@@ -261,6 +291,10 @@ public class FileUtils {
      *
      * @since 2.0
      */
+
+    //@ ensures \typeof(\return) == \type(File);
+    //@ ensures \return != null;
+
     public static File getUserDirectory() {
         return new File(getUserDirectoryPath());
     }
@@ -284,6 +318,14 @@ public class FileUtils {
      * @throws IOException           if the file cannot be read
      * @since 1.3
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(file) == \type(File);
+    //@ requires file != null;
+    //@ ensures \typeof(\result) == \type(FileInputStream);
+    //@ ensures \result != null;
+    //@ signals (IOException e);
+
     public static FileInputStream openInputStream(final File file) throws IOException {
         if (file.exists()) {
             if (file.isDirectory()) {
@@ -319,6 +361,14 @@ public class FileUtils {
      * @throws IOException if a parent directory needs creating but that fails
      * @since 1.3
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(file) == \type(File);
+    //@ requires file != null;
+    //@ ensures \typeof(\result) == \type(FileOutputStream);
+    //@ ensures \result != null;
+    //@ signals (IOException e);
+
     public static FileOutputStream openOutputStream(final File file) throws IOException {
         return openOutputStream(file, false);
     }
@@ -345,6 +395,16 @@ public class FileUtils {
      * @throws IOException if a parent directory needs creating but that fails
      * @since 2.1
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(file) == \type(File);
+    //@ requires file != null;
+    //@ requires \typeof(append) == \type(boolean);
+    //@ requires append != null;
+    //@ ensures \typeof(\result) == \type(FileOutputStream);
+    //@ ensures \result != null;
+    //@ signals (IOException e);
+
     public static FileOutputStream openOutputStream(final File file, final boolean append) throws IOException {
         if (file.exists()) {
             if (file.isDirectory()) {
@@ -380,6 +440,12 @@ public class FileUtils {
      * @see <a href="https://issues.apache.org/jira/browse/IO-226">IO-226 - should the rounding be changed?</a>
      * @since 2.4
      */
+
+    //@ requires \typeof(size) == \type(BigInteger);
+    //@ requires size != null;
+    //@ ensures \typeof(displaySize) == \type(String);
+    //@ ensures displaySize != null;
+
     // See https://issues.apache.org/jira/browse/IO-226 - should the rounding be changed?
     public static String byteCountToDisplaySize(final BigInteger size) {
         String displaySize;
@@ -416,6 +482,12 @@ public class FileUtils {
      * @return a human-readable display value (includes units - EB, PB, TB, GB, MB, KB or bytes)
      * @see <a href="https://issues.apache.org/jira/browse/IO-226">IO-226 - should the rounding be changed?</a>
      */
+
+    //@ requires \typeof(size) == \type(long);
+    //@ requires size != null;
+    //@ ensures \typeof(\result) == \type(String);
+    //@ ensures \result != null;
+
     // See https://issues.apache.org/jira/browse/IO-226 - should the rounding be changed?
     public static String byteCountToDisplaySize(final long size) {
         return byteCountToDisplaySize(BigInteger.valueOf(size));
@@ -434,6 +506,12 @@ public class FileUtils {
      * @param file the File to touch
      * @throws IOException If an I/O problem occurs
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(file) == \type(File);
+    //@ requires file != null;
+    //@ signals (IOException e);
+
     public static void touch(final File file) throws IOException {
         if (!file.exists()) {
             openOutputStream(file).close();
@@ -453,6 +531,12 @@ public class FileUtils {
      * @param files a Collection containing java.io.File instances
      * @return an array of java.io.File
      */
+
+    //@ requires \typeof(files) == \type(Collection<File>);
+    //@ requires files != null;
+    //@ ensures \typeof(\result) == \type(File[]);
+    //@ ensures \result != null;
+
     public static File[] convertFileCollectionToFileArray(final Collection<File> files) {
         return files.toArray(new File[files.size()]);
     }
@@ -467,6 +551,16 @@ public class FileUtils {
      * @param filter                the filter to apply to files and directories.
      * @param includeSubDirectories indicates if will include the subdirectories themselves
      */
+
+    //@ requires \typeof(files) == \type(Collection<File>);
+    //@ requires files != null;
+    //@ requires \typeof(directory) == \type(File);
+    //@ requires directory != null;
+    //@ requires \typeof(filter) == \type(IOFileFilter);
+    //@ requires filter != null;
+    //@ requires \typeof(includeSubDirectories) == \type(boolean);
+    //@ requires includeSubDirectories != null;
+
     private static void innerListFiles(final Collection<File> files, final File directory,
                                        final IOFileFilter filter, final boolean includeSubDirectories) {
         final File[] found = directory.listFiles((FileFilter) filter);
@@ -511,6 +605,16 @@ public class FileUtils {
      * @see org.apache.commons.io.filefilter.FileFilterUtils
      * @see org.apache.commons.io.filefilter.NameFileFilter
      */
+
+    //@ requires \typeof(directory) == \type(File);
+    //@ requires directory != null;
+    //@ requires \typeof(fileFilter) == \type(IOFileFilter);
+    //@ requires fileFilter != null;
+    //@ requires \typeof(dirFilter) == \type(IOFileFilter);
+    //@ requires dirFilter != null;
+    //@ ensures \typeof(\result) == \type(Collection<File>);
+    //@ ensures \result != null;
+
     public static Collection<File> listFiles(
             final File directory, final IOFileFilter fileFilter, final IOFileFilter dirFilter) {
         return innerListFilesOrDirectories(directory, fileFilter, dirFilter, false);
@@ -526,6 +630,15 @@ public class FileUtils {
      * @param directory  The File to test
      * @param fileFilter The IOFileFilter to test
      */
+
+    //@ signals_only IllegalArgumentException || NullPointerException;
+    //@ requires \typeof(directory) == \type(File);
+    //@ requires directory != null;
+    //@ requires \typeof(fileFilter) == \type(IOFileFilter);
+    //@ requires fileFilter != null;
+    //@ signals (IllegalArgumentException e);
+    //@ signals (NullPointerException e);
+
     private static void validateListFilesParameters(final File directory, final IOFileFilter fileFilter) {
         if (!directory.isDirectory()) {
             throw new IllegalArgumentException("Parameter 'directory' is not a directory: " + directory);
@@ -541,6 +654,12 @@ public class FileUtils {
      * @param fileFilter a base filter to add to
      * @return a filter that accepts files
      */
+
+    //@ requires \typeof(fileFilter) == \type(IOFileFilter);
+    //@ requires fileFilter != null;
+    //@ ensures \typeof(\result) == \type(IOFileFilter);
+    //@ ensures \result != null;
+
     private static IOFileFilter setUpEffectiveFileFilter(final IOFileFilter fileFilter) {
         return FileFilterUtils.and(fileFilter, FileFilterUtils.notFileFilter(DirectoryFileFilter.INSTANCE));
     }
@@ -551,6 +670,12 @@ public class FileUtils {
      * @param dirFilter a base filter to add to
      * @return a filter that accepts directories
      */
+
+    //@ requires \typeof(dirFilter) == \type(IOFileFilter);
+    //@ requires dirFilter != null;
+    //@ ensures \typeof(\result) == \type(IOFileFilter);
+    //@ ensures \result != null;
+
     private static IOFileFilter setUpEffectiveDirFilter(final IOFileFilter dirFilter) {
         return dirFilter == null ? FalseFileFilter.INSTANCE : FileFilterUtils.and(dirFilter,
                 DirectoryFileFilter.INSTANCE);
@@ -575,6 +700,16 @@ public class FileUtils {
      * @see org.apache.commons.io.filefilter.NameFileFilter
      * @since 2.2
      */
+
+    //@ requires \typeof(directory) == \type(File);
+    //@ requires directory != null;
+    //@ requires \typeof(fileFilter) == \type(IOFileFilter);
+    //@ requires fileFilter != null;
+    //@ requires \typeof(dirFilter) == \type(IOFileFilter);
+    //@ requires dirFilter != null;
+    //@ ensures \typeof(\result) == \type(Collection<File>);
+    //@ ensures \result != null;
+
     public static Collection<File> listFilesAndDirs(
             final File directory, final IOFileFilter fileFilter, final IOFileFilter dirFilter) {
         return innerListFilesOrDirectories(directory, fileFilter, dirFilter, true);
@@ -595,6 +730,18 @@ public class FileUtils {
      * @see org.apache.commons.io.filefilter.FileFilterUtils
      * @see org.apache.commons.io.filefilter.NameFileFilter
      */
+
+    //@ requires \typeof(directory) == \type(File);
+    //@ requires directory != null;
+    //@ requires \typeof(fileFilter) == \type(IOFileFilter);
+    //@ requires fileFilter != null;
+    //@ requires \typeof(dirFilter) == \type(IOFileFilter);
+    //@ requires dirFilter != null;
+    //@ requires \typeof(includeSubDirectories) == \type(boolean);
+    //@ requires includeSubDirectories != null;
+    //@ ensures \typeof(files) == \type(Collection<File>);
+    //@ ensures files != null;
+
     private static Collection<File> innerListFilesOrDirectories(
             final File directory, final IOFileFilter fileFilter, final IOFileFilter dirFilter,
             final boolean includeSubDirectories) {
@@ -631,6 +778,16 @@ public class FileUtils {
      * @see org.apache.commons.io.filefilter.NameFileFilter
      * @since 1.2
      */
+
+    //@ requires \typeof(directory) == \type(File);
+    //@ requires directory != null;
+    //@ requires \typeof(fileFilter) == \type(IOFileFilter);
+    //@ requires fileFilter != null;
+    //@ requires \typeof(dirFilter) == \type(IOFileFilter);
+    //@ requires dirFilter != null;
+    //@ ensures \typeof(\result) == \type(Iterator<File>);
+    //@ ensures \result != null;
+
     public static Iterator<File> iterateFiles(
             final File directory, final IOFileFilter fileFilter, final IOFileFilter dirFilter) {
         return listFiles(directory, fileFilter, dirFilter).iterator();
@@ -656,6 +813,16 @@ public class FileUtils {
      * @see org.apache.commons.io.filefilter.NameFileFilter
      * @since 2.2
      */
+
+    //@ requires \typeof(directory) == \type(File);
+    //@ requires directory != null;
+    //@ requires \typeof(fileFilter) == \type(IOFileFilter);
+    //@ requires fileFilter != null;
+    //@ requires \typeof(dirFilter) == \type(IOFileFilter);
+    //@ requires dirFilter != null;
+    //@ ensures \typeof(\result) == \type(Iterator<File>);
+    //@ ensures \result != null;
+
     public static Iterator<File> iterateFilesAndDirs(final File directory, final IOFileFilter fileFilter,
                                                      final IOFileFilter dirFilter) {
         return listFilesAndDirs(directory, fileFilter, dirFilter).iterator();
@@ -669,6 +836,12 @@ public class FileUtils {
      * @param extensions an array of extensions. Format: {"java", "xml"}
      * @return an array of suffixes. Format: {".java", ".xml"}
      */
+
+    //@ requires \typeof(extensions) == \type( String[]);
+    //@ requires extensions != null;
+    //@ ensures \typeof(suffixes) == \type(String[]);
+    //@ ensures suffixes != null;
+
     private static String[] toSuffixes(final String[] extensions) {
         final String[] suffixes = new String[extensions.length];
         for (int i = 0; i < extensions.length; i++) {
@@ -688,6 +861,16 @@ public class FileUtils {
      * @param recursive  if true all subdirectories are searched as well
      * @return a collection of java.io.File with the matching files
      */
+
+    //@ requires \typeof(directory) == \type(File);
+    //@ requires directory != null;
+    //@ requires \typeof(extensions) == \type(String[]);
+    //@ requires extensions != null;
+    //@ requires \typeof(recursive) == \type(boolean);
+    //@ requires recursive != null;
+    //@ ensures \typeof(\result) == \type(Collection<File>);
+    //@ ensures \result != null;
+
     public static Collection<File> listFiles(
             final File directory, final String[] extensions, final boolean recursive) {
         IOFileFilter filter;
@@ -714,6 +897,16 @@ public class FileUtils {
      * @return an iterator of java.io.File with the matching files
      * @since 1.2
      */
+
+    //@ requires \typeof(directory) == \type(File);
+    //@ requires directory != null;
+    //@ requires \typeof(extensions) == \type(String[]);
+    //@ requires extensions != null;
+    //@ requires \typeof(recursive) == \type(boolean);
+    //@ requires recursive != null;
+    //@ ensures \typeof(\result) == \type(Iterator<File>);
+    //@ ensures \result != null;
+
     public static Iterator<File> iterateFiles(
             final File directory, final String[] extensions, final boolean recursive) {
         return listFiles(directory, extensions, recursive).iterator();
@@ -735,6 +928,16 @@ public class FileUtils {
      * exist, false otherwise
      * @throws IOException in case of an I/O error
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(file1) == \type(File);
+    //@ requires file1 != null;
+    //@ requires \typeof(file2) == \type(File);
+    //@ requires file2 != null;
+    //@ ensures \typeof(\result) == \type(boolean);
+    //@ ensures \result != null;
+    //@ signals (IOException e);
+
     public static boolean contentEquals(final File file1, final File file2) throws IOException {
         final boolean file1Exists = file1.exists();
         if (file1Exists != file2.exists()) {
@@ -785,6 +988,18 @@ public class FileUtils {
      * @see IOUtils#contentEqualsIgnoreEOL(Reader, Reader)
      * @since 2.2
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(file1) == \type(File);
+    //@ requires file1 != null;
+    //@ requires \typeof(file2) == \type(File);
+    //@ requires file2 != null;
+    //@ requires \typeof(charsetName) == \type(String);
+    //@ requires charsetName != null;
+    //@ ensures \typeof(\result) == \type(boolean);
+    //@ ensures \result != null;
+    //@ signals (IOException e);
+
     public static boolean contentEqualsIgnoreEOL(final File file1, final File file2, final String charsetName)
             throws IOException {
         final boolean file1Exists = file1.exists();
@@ -832,6 +1047,10 @@ public class FileUtils {
      * @return the equivalent <code>File</code> object, or {@code null}
      * if the URL's protocol is not <code>file</code>
      */
+
+    //@ requires \typeof(url) == \type(URL);
+    //@ ensures \typeof(\result) == \type(File);
+
     public static File toFile(final URL url) {
         if (url == null || !"file".equalsIgnoreCase(url.getProtocol())) {
             return null;
@@ -855,6 +1074,12 @@ public class FileUtils {
      * @return The decoded URL or {@code null} if the input was
      * {@code null}.
      */
+
+    //@ requires \typeof(url) == \type(String);
+    //@ requires url != null;
+    //@ ensures \typeof(decoded) == \type(String);
+    //@ ensures decoded != null;
+
     static String decodeUrl(final String url) {
         String decoded = url;
         if (url != null && url.indexOf('%') >= 0) {
@@ -907,6 +1132,14 @@ public class FileUtils {
      * @throws IllegalArgumentException if any file is incorrectly encoded
      * @since 1.1
      */
+
+    //@ signals_only IllegalArgumentException;
+    //@ requires \typeof(url) == \type(URL[]);
+    //@ requires url != null;
+    //@ ensures \typeof(files) == \type(File[]);
+    //@ ensures files != null;
+    //@ signals (IllegalArgumentException e);
+
     public static File[] toFiles(final URL[] urls) {
         if (urls == null || urls.length == 0) {
             return EMPTY_FILE_ARRAY;
@@ -935,6 +1168,14 @@ public class FileUtils {
      * @throws IOException          if a file cannot be converted
      * @throws NullPointerException if the parameter is null
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(files) == \type(File[]);
+    //@ requires files != null;
+    //@ ensures \typeof(\result) == \type(URL[]);
+    //@ ensures \result != null;
+    //@ signals (IOException e);
+
     public static URL[] toURLs(final File[] files) throws IOException {
         final URL[] urls = new URL[files.length];
 
@@ -967,6 +1208,14 @@ public class FileUtils {
      * @throws IOException          if an IO error occurs during copying
      * @see #copyFile(File, File, boolean)
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(srcFile) == \type(File);
+    //@ requires srcFile != null;
+    //@ requires \typeof(destDir) == \type(File);
+    //@ requires destDir != null;
+    //@ signals (IOException e);
+
     public static void copyFileToDirectory(final File srcFile, final File destDir) throws IOException {
         copyFileToDirectory(srcFile, destDir, true);
     }
@@ -998,6 +1247,18 @@ public class FileUtils {
      * @see #copyFile(File, File, boolean)
      * @since 1.3
      */
+
+    //@ signals_only IOException || NullPointerException || IllegalArgumentException;
+    //@ requires \typeof(srcFile) == \type(File);
+    //@ requires srcFile != null;
+    //@ requires \typeof(destDir) == \type(File);
+    //@ requires destDir != null;
+    //@ requires \typeof(preserveFileDate) == \type(boolean);
+    //@ requires preserveFileDate != null;
+    //@ signals (IOException e);
+    //@ signals (NullPointerException e);
+    //@ signals (IllegalArgumentException e);
+
     public static void copyFileToDirectory(final File srcFile, final File destDir, final boolean preserveFileDate)
             throws IOException {
         if (destDir == null) {
@@ -1034,6 +1295,14 @@ public class FileUtils {
      * @see #copyFileToDirectory(File, File)
      * @see #copyFile(File, File, boolean)
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(srcFile) == \type(File);
+    //@ requires srcFile != null;
+    //@ requires \typeof(destDir) == \type(File);
+    //@ requires destDir != null;
+    //@ signals (IOException e);
+
     public static void copyFile(final File srcFile, final File destFile) throws IOException {
         copyFile(srcFile, destFile, true);
     }
@@ -1065,6 +1334,16 @@ public class FileUtils {
      * @see #copyFileToDirectory(File, File, boolean)
      * @see #doCopyFile(File, File, boolean)
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(srcFile) == \type(File);
+    //@ requires srcFile != null;
+    //@ requires \typeof(destFile) == \type(File);
+    //@ requires destFile != null;
+    //@ requires \typeof(preserveFileDate) == \type(boolean);
+    //@ requires preserveFileDate != null;
+    //@ signals (IOException e);
+
     public static void copyFile(final File srcFile, final File destFile,
                                 final boolean preserveFileDate) throws IOException {
         checkFileRequirements(srcFile, destFile);
@@ -1099,6 +1378,16 @@ public class FileUtils {
      * @throws IOException          if an I/O error occurs
      * @since 2.1
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(input) == \type(File);
+    //@ requires input != null;
+    //@ requires \typeof(output) == \type(OutputStream);
+    //@ requires output != null;
+    //@ ensures \typeof(\result) == \type(long);
+    //@ ensures \result != null;
+    //@ signals (IOException e);
+
     public static long copyFile(final File input, final OutputStream output) throws IOException {
         try (FileInputStream fis = new FileInputStream(input)) {
             return IOUtils.copyLarge(fis, output);
@@ -1122,6 +1411,16 @@ public class FileUtils {
      * @throws IllegalArgumentException "Negative size" if the file is truncated so that the size is less than the
      * position
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(srcDir) == \type(File);
+    //@ requires srcDir != null;
+    //@ requires \typeof(destFile) == \type(File);
+    //@ requires destFile != null;
+    //@ requires \typeof(preserveFileDate) == \type(boolean);
+    //@ requires preserveFileDate != null;
+    //@ signals (IOException e);
+
     private static void doCopyFile(final File srcFile, final File destFile, final boolean preserveFileDate)
             throws IOException {
         if (destFile.exists() && destFile.isDirectory()) {
@@ -1181,6 +1480,16 @@ public class FileUtils {
      * @throws IOException          if an IO error occurs during copying
      * @since 1.2
      */
+
+    //@ signals_only IOException || IllegalArgumentsException || NullPointerException;
+    //@ requires \typeof(srcDir) == \type(File);
+    //@ requires srcDir != null;
+    //@ requires \typeof(destDir) == \type(File);
+    //@ requires destDir != null;
+    //@ signals (IOException e);
+    //@ signals (IllegalArgumentsException e);
+    //@ signals (NullPointerException e);
+
     public static void copyDirectoryToDirectory(final File srcDir, final File destDir) throws IOException {
         if (srcDir == null) {
             throw new NullPointerException("Source must not be null");
@@ -1221,6 +1530,14 @@ public class FileUtils {
      * @throws IOException          if an IO error occurs during copying
      * @since 1.1
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(srcDir) == \type(File);
+    //@ requires srcDir != null;
+    //@ requires \typeof(destDir) == \type(File);
+    //@ requires destDir != null;
+    //@ signals (IOException e);
+
     public static void copyDirectory(final File srcDir, final File destDir) throws IOException {
         copyDirectory(srcDir, destDir, true);
     }
@@ -1251,6 +1568,16 @@ public class FileUtils {
      * @throws IOException          if an IO error occurs during copying
      * @since 1.1
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(srcDir) == \type(File);
+    //@ requires srcDir != null;
+    //@ requires \typeof(destDir) == \type(File);
+    //@ requires destDir != null;
+    //@ requires \typeof(preserveFileDate) == \type(boolean);
+    //@ requires preserveFileDate != null;
+    //@ signals (IOException e);
+
     public static void copyDirectory(final File srcDir, final File destDir,
                                      final boolean preserveFileDate) throws IOException {
         copyDirectory(srcDir, destDir, null, preserveFileDate);
@@ -1300,6 +1627,16 @@ public class FileUtils {
      * @throws IOException          if an IO error occurs during copying
      * @since 1.4
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(input) == \type(File);
+    //@ requires input != null;
+    //@ requires \typeof(destDir) == \type(File);
+    //@ requires destDir != null;
+    //@ requires \typeof(preserveFileDate) == \type(boolean);
+    //@ requires preserveFileDate != null;
+    //@ signals (IOException e);
+
     public static void copyDirectory(final File srcDir, final File destDir,
                                      final FileFilter filter) throws IOException {
         copyDirectory(srcDir, destDir, filter, true);
@@ -1351,6 +1688,18 @@ public class FileUtils {
      * @throws IOException          if an IO error occurs during copying
      * @since 1.4
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(srcDir) == \type(File);
+    //@ requires srcDir != null;
+    //@ requires \typeof(destDir) == \type(File);
+    //@ requires destDir != null;
+    //@ requires \typeof(filter) == \type(FileFilter);
+    //@ requires filter != null;
+    //@ requires \typeof(preserveFileDate) == \type(boolean);
+    //@ requires preserveFileDate != null;
+    //@ signals (IOException e);
+
     public static void copyDirectory(final File srcDir, final File destDir,
                                      final FileFilter filter, final boolean preserveFileDate) throws IOException {
         checkFileRequirements(srcDir, destDir);
@@ -1382,6 +1731,15 @@ public class FileUtils {
      * @param dest the destination
      * @throws FileNotFoundException if the destination does not exist
      */
+
+    //@ signals_only NullPointerException || FileNotFoundException;
+    //@ requires \typeof(src) == \type(File);
+    //@ requires src != null;
+    //@ requires \typeof(dest) == \type(File);
+    //@ requires dest != null;
+    //@ signals (NullPointerException e);
+    //@ signals (FileNotFoundException e);
+
     private static void checkFileRequirements(final File src, final File dest) throws FileNotFoundException {
         if (src == null) {
             throw new NullPointerException("Source must not be null");
@@ -1405,6 +1763,20 @@ public class FileUtils {
      * @throws IOException if an error occurs
      * @since 1.1
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(srcDir) == \type(File);
+    //@ requires srcDir != null;
+    //@ requires \typeof(destDir) == \type(File);
+    //@ requires destDir != null;
+    //@ requires \typeof(filter) == \type(FileFilter);
+    //@ requires filter != null;
+    //@ requires \typeof(preserveFileDate) == \type(boolean);
+    //@ requires preserveFileDate != null;
+    //@ requires \typeof(exclusionList) == \type(List<String> );
+    //@ requires exclusionList != null;
+    //@ signals (IOException e);
+
     private static void doCopyDirectory(final File srcDir, final File destDir, final FileFilter filter,
                                         final boolean preserveFileDate, final List<String> exclusionList)
             throws IOException {
@@ -1462,6 +1834,14 @@ public class FileUtils {
      * @throws IOException if <code>destination</code> needs creating but can't be
      * @throws IOException if an IO error occurs during copying
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(source) == \type(URL);
+    //@ requires source != null;
+    //@ requires \typeof(destination) == \type(File);
+    //@ requires destination != null;
+    //@ signals (IOException e);
+
     public static void copyURLToFile(final URL source, final File destination) throws IOException {
         copyInputStreamToFile(source.openStream(), destination);
     }
@@ -1486,6 +1866,18 @@ public class FileUtils {
      * @throws IOException if an IO error occurs during copying
      * @since 2.0
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(source) == \type(URL);
+    //@ requires source != null;
+    //@ requires \typeof(destination) == \type(File);
+    //@ requires destination != null;
+    //@ requires \typeof(connectionTimeout) == \type(int);
+    //@ requires connectionTimeout != null;
+    //@ requires \typeof(readTimeout) == \type(int);
+    //@ requires readTimeout != null;
+    //@ signals (IOException e);
+
     public static void copyURLToFile(final URL source, final File destination,
                                      final int connectionTimeout, final int readTimeout) throws IOException {
         final URLConnection connection = source.openConnection();
@@ -1511,6 +1903,14 @@ public class FileUtils {
      * @throws IOException if an IO error occurs during copying
      * @since 2.0
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(source) == \type(InputStream);
+    //@ requires source != null;
+    //@ requires \typeof(destination) == \type(File);
+    //@ requires destination != null;
+    //@ signals (IOException e);
+
     public static void copyInputStreamToFile(final InputStream source, final File destination) throws IOException {
         try (InputStream in = source) {
             copyToFile(in, destination);
@@ -1534,6 +1934,14 @@ public class FileUtils {
      * @throws IOException if an IO error occurs during copying
      * @since 2.5
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(source) == \type(InputStream);
+    //@ requires source != null;
+    //@ requires \typeof(destination) == \type(File);
+    //@ requires destination != null;
+    //@ signals (IOException e);
+
     public static void copyToFile(final InputStream source, final File destination) throws IOException {
         try (OutputStream out = openOutputStream(destination)) {
             IOUtils.copy(source, out);
@@ -1565,6 +1973,15 @@ public class FileUtils {
      * @see #copyFileToDirectory(File, File)
      * @since 2.6
      */
+
+    //@ signals_only IOException || NullPointerException;
+    //@ requires \typeof(src) == \type(File);
+    //@ requires src != null;
+    //@ requires \typeof(destDir) == \type(File);
+    //@ requires destDir != null;
+    //@ signals (IOException e);
+    //@ signals (NullPointerException e);
+
     public static void copyToDirectory(final File src, final File destDir) throws IOException {
         if (src == null) {
             throw new NullPointerException("Source must not be null");
@@ -1600,6 +2017,15 @@ public class FileUtils {
      * @see #copyFileToDirectory(File, File)
      * @since 2.6
      */
+
+    //@ signals_only IOException || NullPointerException;
+    //@ requires \typeof(srcs) == \type(Iterable<File>);
+    //@ requires srcs != null;
+    //@ requires \typeof(destDir) == \type(File);
+    //@ requires destDir != null;
+    //@ signals (IOException e);
+    //@ signals (NullPointerException e);
+
     public static void copyToDirectory(final Iterable<File> srcs, final File destDir) throws IOException {
         if (srcs == null) {
             throw new NullPointerException("Sources must not be null");
@@ -1617,6 +2043,12 @@ public class FileUtils {
      * @throws IOException              in case deletion is unsuccessful
      * @throws IllegalArgumentException if {@code directory} does not exist or is not a directory
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(directory) == \type(File);
+    //@ requires directory != null;
+    //@ signals (IOException e);
+
     public static void deleteDirectory(final File directory) throws IOException {
         if (!directory.exists()) {
             return;
@@ -1648,6 +2080,13 @@ public class FileUtils {
      *
      * @since 1.4
      */
+
+    //@ requires \typeof(file) == \type(File);
+    //@ requires file != null;
+    //@ ensures \typeof(\result) == \type(boolean);
+    //@ ensures \result != null;
+    //@ signals (IOException e);
+
     public static boolean deleteQuietly(final File file) {
         if (file == null) {
             return false;
@@ -1688,6 +2127,17 @@ public class FileUtils {
      * @see FilenameUtils#directoryContains(String, String)
      * @since 2.2
      */
+
+    //@ signals_only IOException || IllegalArgumentException;
+    //@ requires \typeof(directory) == \type(File);
+    //@ requires directory != null;
+    //@ requires \typeof(child) == \type(File);
+    //@ requires child != null;
+    //@ ensures \typeof(\result) == \type(boolean);
+    //@ ensures \result != null;
+    //@ signals (IOException e);
+    //@ signals (IllegalArgumentException e);
+
     public static boolean directoryContains(final File directory, final File child) throws IOException {
 
         // Fail fast against NullPointerException
@@ -1721,6 +2171,12 @@ public class FileUtils {
      * @throws IOException              in case cleaning is unsuccessful
      * @throws IllegalArgumentException if {@code directory} does not exist or is not a directory
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(directory) == \type(File);
+    //@ requires directory != null;
+    //@ signals (IOException e);
+
     public static void cleanDirectory(final File directory) throws IOException {
         final File[] files = verifiedListFiles(directory);
 
@@ -1744,6 +2200,15 @@ public class FileUtils {
      * @return The files in the directory, never null.
      * @throws IOException if an I/O error occurs
      */
+
+    //@ signals_only IOException || IlegalArgumentException;
+    //@ requires \typeof(directory) == \type(File);
+    //@ requires directory != null;
+    //@ ensures \typeof(\result) == \type(File[]);
+    //@ ensures \result != null;
+    //@ signals (IOException e);
+    //@ signals (IlegalArgumentException e);
+
     private static File[] verifiedListFiles(final File directory) throws IOException {
         if (!directory.exists()) {
             final String message = directory + " does not exist";
@@ -1774,6 +2239,16 @@ public class FileUtils {
      * @return true if file exists
      * @throws NullPointerException if the file is {@code null}
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(file) == \type(File);
+    //@ requires file != null;
+    //@ requires \typeof(seconds) == \type(int);
+    //@ requires seconds != null;
+    //@ ensures \typeof(\result) == \type(boolean);
+    //@ ensures \result != null;
+    //@ signals (IOException e);
+
     public static boolean waitFor(final File file, final int seconds) {
         final long finishAt = System.currentTimeMillis() + (seconds * 1000L);
         boolean wasInterrupted = false;
@@ -1810,6 +2285,16 @@ public class FileUtils {
      * @throws IOException in case of an I/O error
      * @since 2.3
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(file) == \type(File);
+    //@ requires file != null;
+    //@ requires \typeof(encoding) == \type(Charset);
+    //@ requires encoding != null;
+    //@ ensures \typeof(\result) == \type(String);
+    //@ ensures \result != null;
+    //@ signals (IOException e);
+
     public static String readFileToString(final File file, final Charset encoding) throws IOException {
         try (InputStream in = openInputStream(file)) {
             return IOUtils.toString(in, Charsets.toCharset(encoding));
@@ -1827,6 +2312,16 @@ public class FileUtils {
      * .UnsupportedEncodingException} in version 2.2 if the encoding is not supported.
      * @since 2.3
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(file) == \type(File);
+    //@ requires file != null;
+    //@ requires \typeof(encoding) == \type(String);
+    //@ requires encoding != null;
+    //@ ensures \typeof(\result) == \type(String);
+    //@ ensures \result != null;
+    //@ signals (IOException e);
+
     public static String readFileToString(final File file, final String encoding) throws IOException {
         return readFileToString(file, Charsets.toCharset(encoding));
     }
@@ -1842,6 +2337,14 @@ public class FileUtils {
      * @since 1.3.1
      * @deprecated 2.5 use {@link #readFileToString(File, Charset)} instead (and specify the appropriate encoding)
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(file) == \type(File);
+    //@ requires file != null;
+    //@ ensures \typeof(\result) == \type(String);
+    //@ ensures \result != null;
+    //@ signals (IOException e);
+
     @Deprecated
     public static String readFileToString(final File file) throws IOException {
         return readFileToString(file, Charset.defaultCharset());
@@ -1856,6 +2359,14 @@ public class FileUtils {
      * @throws IOException in case of an I/O error
      * @since 1.1
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(file) == \type(File);
+    //@ requires file != null;
+    //@ ensures \typeof(\result) == \type(byte[]);
+    //@ ensures \result != null;
+    //@ signals (IOException e);
+
     public static byte[] readFileToByteArray(final File file) throws IOException {
         try (InputStream in = openInputStream(file)) {
             final long fileLength = file.length();
@@ -1874,6 +2385,16 @@ public class FileUtils {
      * @throws IOException in case of an I/O error
      * @since 2.3
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(file) == \type(File);
+    //@ requires file != null;
+    //@ requires \typeof(encoding) == \type(Charset);
+    //@ requires encoding != null;
+    //@ ensures \typeof(\result) == \type(List<String>);
+    //@ ensures \result != null;
+    //@ signals (IOException e);
+
     public static List<String> readLines(final File file, final Charset encoding) throws IOException {
         try (InputStream in = openInputStream(file)) {
             return IOUtils.readLines(in, Charsets.toCharset(encoding));
@@ -1891,6 +2412,16 @@ public class FileUtils {
      * .UnsupportedEncodingException} in version 2.2 if the encoding is not supported.
      * @since 1.1
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(file) == \type(File);
+    //@ requires file != null;
+    //@ requires \typeof(encoding) == \type(Charset);
+    //@ requires encoding != null;
+    //@ ensures \typeof(\result) == \type(List<String>);
+    //@ ensures \result != null;
+    //@ signals (IOException e);
+
     public static List<String> readLines(final File file, final String encoding) throws IOException {
         return readLines(file, Charsets.toCharset(encoding));
     }
@@ -1905,6 +2436,14 @@ public class FileUtils {
      * @since 1.3
      * @deprecated 2.5 use {@link #readLines(File, Charset)} instead (and specify the appropriate encoding)
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(file) == \type(File);
+    //@ requires file != null;
+    //@ ensures \typeof(\result) == \type(List<String>);
+    //@ ensures \result != null;
+    //@ signals (IOException e);
+
     @Deprecated
     public static List<String> readLines(final File file) throws IOException {
         return readLines(file, Charset.defaultCharset());
@@ -1941,6 +2480,16 @@ public class FileUtils {
      * @throws IOException in case of an I/O error (file closed)
      * @since 1.2
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(file) == \type(File);
+    //@ requires file != null;
+    //@ requires \typeof(encoding) == \type(Charset);
+    //@ requires encoding != null;
+    //@ ensures \typeof(\result) == \type(LineIterator);
+    //@ ensures \result != null;
+    //@ signals (IOException e);
+
     public static LineIterator lineIterator(final File file, final String encoding) throws IOException {
         InputStream in = null;
         try {
@@ -1968,6 +2517,14 @@ public class FileUtils {
      * @see #lineIterator(File, String)
      * @since 1.3
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(file) == \type(File);
+    //@ requires file != null;
+    //@ ensures \typeof(\result) == \type(LineIterator);
+    //@ ensures \result != null;
+    //@ signals (IOException e);
+
     public static LineIterator lineIterator(final File file) throws IOException {
         return lineIterator(file, null);
     }
@@ -1987,6 +2544,16 @@ public class FileUtils {
      * @throws java.io.UnsupportedEncodingException if the encoding is not supported by the VM
      * @since 2.4
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(file) == \type(File);
+    //@ requires file != null;
+    //@ requires \typeof(data) == \type(String);
+    //@ requires data != null;
+    //@ requires \typeof(encoding) == \type(Charset);
+    //@ requires encoding != null;
+    //@ signals (IOException e);
+
     public static void writeStringToFile(final File file, final String data, final Charset encoding)
             throws IOException {
         writeStringToFile(file, data, encoding, false);
@@ -2004,6 +2571,16 @@ public class FileUtils {
      * @throws IOException                          in case of an I/O error
      * @throws java.io.UnsupportedEncodingException if the encoding is not supported by the VM
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(file) == \type(File);
+    //@ requires file != null;
+    //@ requires \typeof(data) == \type(String);
+    //@ requires data != null;
+    //@ requires \typeof(encoding) == \type(String);
+    //@ requires encoding != null;
+    //@ signals (IOException e);
+
     public static void writeStringToFile(final File file, final String data, final String encoding) throws IOException {
         writeStringToFile(file, data, encoding, false);
     }
@@ -2019,6 +2596,18 @@ public class FileUtils {
      * @throws IOException in case of an I/O error
      * @since 2.3
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(file) == \type(File);
+    //@ requires file != null;
+    //@ requires \typeof(data) == \type(String);
+    //@ requires data != null;
+    //@ requires \typeof(encoding) == \type(String);
+    //@ requires encoding != null;
+    //@ requires \typeof(append) == \type(boolean);
+    //@ requires append != null;
+    //@ signals (IOException e);
+
     public static void writeStringToFile(final File file, final String data, final Charset encoding,
                                          final boolean append) throws IOException {
         try (OutputStream out = openOutputStream(file, append)) {
@@ -2039,6 +2628,18 @@ public class FileUtils {
      * .UnsupportedEncodingException} in version 2.2 if the encoding is not supported by the VM
      * @since 2.1
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(file) == \type(File);
+    //@ requires file != null;
+    //@ requires \typeof(data) == \type(String);
+    //@ requires data != null;
+    //@ requires \typeof(encoding) == \type(String);
+    //@ requires encoding != null;
+    //@ requires \typeof(append) == \type(boolean);
+    //@ requires append != null;
+    //@ signals (IOException e);
+
     public static void writeStringToFile(final File file, final String data, final String encoding,
                                          final boolean append) throws IOException {
         writeStringToFile(file, data, Charsets.toCharset(encoding), append);
@@ -2052,6 +2653,14 @@ public class FileUtils {
      * @throws IOException in case of an I/O error
      * @deprecated 2.5 use {@link #writeStringToFile(File, String, Charset)} instead (and specify the appropriate encoding)
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(file) == \type(File);
+    //@ requires file != null;
+    //@ requires \typeof(data) == \type(String);
+    //@ requires data != null;
+    //@ signals (IOException e);
+
     @Deprecated
     public static void writeStringToFile(final File file, final String data) throws IOException {
         writeStringToFile(file, data, Charset.defaultCharset(), false);
@@ -2068,6 +2677,16 @@ public class FileUtils {
      * @since 2.1
      * @deprecated 2.5 use {@link #writeStringToFile(File, String, Charset, boolean)} instead (and specify the appropriate encoding)
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(file) == \type(File);
+    //@ requires file != null;
+    //@ requires \typeof(data) == \type(String);
+    //@ requires data != null;
+    //@ requires \typeof(append) == \type(boolean);
+    //@ requires append != null;
+    //@ signals (IOException e);
+
     @Deprecated
     public static void writeStringToFile(final File file, final String data, final boolean append) throws IOException {
         writeStringToFile(file, data, Charset.defaultCharset(), append);
@@ -2082,6 +2701,14 @@ public class FileUtils {
      * @since 2.0
      * @deprecated 2.5 use {@link #write(File, CharSequence, Charset)} instead (and specify the appropriate encoding)
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(file) == \type(File);
+    //@ requires file != null;
+    //@ requires \typeof(data) == \type(CharSequence);
+    //@ requires data != null;
+    //@ signals (IOException e);
+
     @Deprecated
     public static void write(final File file, final CharSequence data) throws IOException {
         write(file, data, Charset.defaultCharset(), false);
@@ -2098,6 +2725,16 @@ public class FileUtils {
      * @since 2.1
      * @deprecated 2.5 use {@link #write(File, CharSequence, Charset, boolean)} instead (and specify the appropriate encoding)
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(file) == \type(File);
+    //@ requires file != null;
+    //@ requires \typeof(data) == \type(CharSequence);
+    //@ requires data != null;
+    //@ requires \typeof(append) == \type(boolean);
+    //@ requires append != null;
+    //@ signals (IOException e);
+
     @Deprecated
     public static void write(final File file, final CharSequence data, final boolean append) throws IOException {
         write(file, data, Charset.defaultCharset(), append);
@@ -2112,6 +2749,16 @@ public class FileUtils {
      * @throws IOException in case of an I/O error
      * @since 2.3
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(file) == \type(File);
+    //@ requires file != null;
+    //@ requires \typeof(data) == \type(String);
+    //@ requires data != null;
+    //@ requires \typeof(encoding) == \type(Charset);
+    //@ requires encoding != null;
+    //@ signals (IOException e);
+
     public static void write(final File file, final CharSequence data, final Charset encoding) throws IOException {
         write(file, data, encoding, false);
     }
@@ -2126,6 +2773,16 @@ public class FileUtils {
      * @throws java.io.UnsupportedEncodingException if the encoding is not supported by the VM
      * @since 2.0
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(file) == \type(File);
+    //@ requires file != null;
+    //@ requires \typeof(data) == \type(CharSequence);
+    //@ requires data != null;
+    //@ requires \typeof(encoding) == \type(String);
+    //@ requires encoding != null;
+    //@ signals (IOException e);
+
     public static void write(final File file, final CharSequence data, final String encoding) throws IOException {
         write(file, data, encoding, false);
     }
@@ -2141,6 +2798,18 @@ public class FileUtils {
      * @throws IOException in case of an I/O error
      * @since 2.3
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(file) == \type(File);
+    //@ requires file != null;
+    //@ requires \typeof(data) == \type(CharSequence);
+    //@ requires data != null;
+    //@ requires \typeof(encoding) == \type(Charset);
+    //@ requires encoding != null;
+    //@ requires \typeof(append) == \type(boolean);
+    //@ requires append != null;
+    //@ signals (IOException e);
+
     public static void write(final File file, final CharSequence data, final Charset encoding, final boolean append)
             throws IOException {
         final String str = data == null ? null : data.toString();
@@ -2160,6 +2829,18 @@ public class FileUtils {
      * .UnsupportedEncodingException} in version 2.2 if the encoding is not supported by the VM
      * @since 2.1
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(file) == \type(File);
+    //@ requires file != null;
+    //@ requires \typeof(data) == \type(CharSequence);
+    //@ requires data != null;
+    //@ requires \typeof(encoding) == \type(String);
+    //@ requires encoding != null;
+    //@ requires \typeof(append) == \type(boolean);
+    //@ requires append != null;
+    //@ signals (IOException e);
+
     public static void write(final File file, final CharSequence data, final String encoding, final boolean append)
             throws IOException {
         write(file, data, Charsets.toCharset(encoding), append);
@@ -2176,6 +2857,14 @@ public class FileUtils {
      * @throws IOException in case of an I/O error
      * @since 1.1
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(file) == \type(File);
+    //@ requires file != null;
+    //@ requires \typeof(data) == \type(byte[]);
+    //@ requires data != null;
+    //@ signals (IOException e);
+
     public static void writeByteArrayToFile(final File file, final byte[] data) throws IOException {
         writeByteArrayToFile(file, data, false);
     }
@@ -2190,6 +2879,16 @@ public class FileUtils {
      * @throws IOException in case of an I/O error
      * @since 2.1
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(file) == \type(File);
+    //@ requires file != null;
+    //@ requires \typeof(data) == \type(byte[]);
+    //@ requires data != null;
+    //@ requires \typeof(append) == \type(boolean);
+    //@ requires append != null;
+    //@ signals (IOException e);
+
     public static void writeByteArrayToFile(final File file, final byte[] data, final boolean append)
             throws IOException {
         writeByteArrayToFile(file, data, 0, data.length, append);
@@ -2207,6 +2906,18 @@ public class FileUtils {
      * @throws IOException in case of an I/O error
      * @since 2.5
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(file) == \type(File);
+    //@ requires file != null;
+    //@ requires \typeof(data) == \type(byte[]);
+    //@ requires data != null;
+    //@ requires \typeof(off) == \type(int);
+    //@ requires off != null;
+    //@ requires \typeof(len) == \type(int);
+    //@ requires len != null;
+    //@ signals (IOException e);
+
     public static void writeByteArrayToFile(final File file, final byte[] data, final int off, final int len)
             throws IOException {
         writeByteArrayToFile(file, data, off, len, false);
@@ -2226,6 +2937,20 @@ public class FileUtils {
      * @throws IOException in case of an I/O error
      * @since 2.5
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(file) == \type(File);
+    //@ requires file != null;
+    //@ requires \typeof(data) == \type(byte[]);
+    //@ requires data != null;
+    //@ requires \typeof(off) == \type(int);
+    //@ requires off != null;
+    //@ requires \typeof(len) == \type(int);
+    //@ requires len != null;
+    //@ requires \typeof(append) == \type(boolean);
+    //@ requires append != null;
+    //@ signals (IOException e);
+
     public static void writeByteArrayToFile(final File file, final byte[] data, final int off, final int len,
                                             final boolean append) throws IOException {
         try (OutputStream out = openOutputStream(file, append)) {
@@ -2248,6 +2973,16 @@ public class FileUtils {
      * @throws java.io.UnsupportedEncodingException if the encoding is not supported by the VM
      * @since 1.1
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(file) == \type(File);
+    //@ requires file != null;
+    //@ requires \typeof(encoding) == \type(String);
+    //@ requires encoding != null;
+    //@ requires \typeof(lines) == \type(Collection<?>);
+    //@ requires lines != null;
+    //@ signals (IOException e);
+
     public static void writeLines(final File file, final String encoding, final Collection<?> lines)
             throws IOException {
         writeLines(file, encoding, lines, null, false);
@@ -2267,6 +3002,18 @@ public class FileUtils {
      * @throws java.io.UnsupportedEncodingException if the encoding is not supported by the VM
      * @since 2.1
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(file) == \type(File);
+    //@ requires file != null;
+    //@ requires \typeof(encoding) == \type(String);
+    //@ requires encoding != null;
+    //@ requires \typeof(lines) == \type(Collection<?>);
+    //@ requires lines != null;
+    //@ requires \typeof(append) == \type(boolean);
+    //@ requires append != null;
+    //@ signals (IOException e);
+
     public static void writeLines(final File file, final String encoding, final Collection<?> lines,
                                   final boolean append) throws IOException {
         writeLines(file, encoding, lines, null, append);
@@ -2282,6 +3029,14 @@ public class FileUtils {
      * @throws IOException in case of an I/O error
      * @since 1.3
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(file) == \type(File);
+    //@ requires file != null;
+    //@ requires \typeof(lines) == \type(Collection<?>);
+    //@ requires lines != null;
+    //@ signals (IOException e);
+
     public static void writeLines(final File file, final Collection<?> lines) throws IOException {
         writeLines(file, null, lines, null, false);
     }
@@ -2298,6 +3053,16 @@ public class FileUtils {
      * @throws IOException in case of an I/O error
      * @since 2.1
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(file) == \type(File);
+    //@ requires file != null;
+    //@ requires \typeof(lines) == \type(Collection<?>);
+    //@ requires lines != null;
+    //@ requires \typeof(append) == \type(boolean);
+    //@ requires append != null;
+    //@ signals (IOException e);
+
     public static void writeLines(final File file, final Collection<?> lines, final boolean append) throws IOException {
         writeLines(file, null, lines, null, append);
     }
@@ -2318,6 +3083,18 @@ public class FileUtils {
      * @throws java.io.UnsupportedEncodingException if the encoding is not supported by the VM
      * @since 1.1
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(file) == \type(File);
+    //@ requires file != null;
+    //@ requires \typeof(encoding) == \type(String);
+    //@ requires encoding != null;
+    //@ requires \typeof(lines) == \type(Collection<?>);
+    //@ requires lines != null;
+    //@ requires \typeof(lineEnding) == \type(String);
+    //@ requires lineEnding != null;
+    //@ signals (IOException e);
+
     public static void writeLines(final File file, final String encoding, final Collection<?> lines,
                                   final String lineEnding) throws IOException {
         writeLines(file, encoding, lines, lineEnding, false);
@@ -2338,6 +3115,20 @@ public class FileUtils {
      * @throws java.io.UnsupportedEncodingException if the encoding is not supported by the VM
      * @since 2.1
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(file) == \type(File);
+    //@ requires file != null;
+    //@ requires \typeof(encoding) == \type(String);
+    //@ requires encoding != null;
+    //@ requires \typeof(lines) == \type(Collection<?>);
+    //@ requires lines != null;
+    //@ requires \typeof(lineEnding) == \type(String);
+    //@ requires lineEnding != null;
+    //@ requires \typeof(append) == \type(boolean);
+    //@ requires append != null;
+    //@ signals (IOException e);
+
     public static void writeLines(final File file, final String encoding, final Collection<?> lines,
                                   final String lineEnding, final boolean append) throws IOException {
         try (OutputStream out = new BufferedOutputStream(openOutputStream(file, append))) {
@@ -2356,6 +3147,16 @@ public class FileUtils {
      * @throws IOException in case of an I/O error
      * @since 1.3
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(file) == \type(File);
+    //@ requires file != null;
+    //@ requires \typeof(lines) == \type(Collection<?>);
+    //@ requires lines != null;
+    //@ requires \typeof(lineEnding) == \type(String);
+    //@ requires lineEnding != null;
+    //@ signals (IOException e);
+
     public static void writeLines(final File file, final Collection<?> lines, final String lineEnding)
             throws IOException {
         writeLines(file, null, lines, lineEnding, false);
@@ -2374,6 +3175,18 @@ public class FileUtils {
      * @throws IOException in case of an I/O error
      * @since 2.1
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(file) == \type(File);
+    //@ requires file != null;
+    //@ requires \typeof(lines) == \type(Collection<?>);
+    //@ requires lines != null;
+    //@ requires \typeof(lineEnding) == \type(String);
+    //@ requires lineEnding != null;
+    //@ requires \typeof(append) == \type(boolean);
+    //@ requires append != null;
+    //@ signals (IOException e);
+
     public static void writeLines(final File file, final Collection<?> lines, final String lineEnding,
                                   final boolean append) throws IOException {
         writeLines(file, null, lines, lineEnding, append);
@@ -2395,6 +3208,13 @@ public class FileUtils {
      * @throws FileNotFoundException if the file was not found
      * @throws IOException           in case deletion is unsuccessful
      */
+
+    //@ signals_only IOException || FileNotFoundException;
+    //@ requires \typeof(file) == \type(File);
+    //@ requires file != null;
+    //@ signals (IOException e);
+    //@ signals (FileNotFoundException e);
+
     public static void forceDelete(final File file) throws IOException {
         if (file.isDirectory()) {
             deleteDirectory(file);
@@ -2419,6 +3239,12 @@ public class FileUtils {
      * @throws NullPointerException if the file is {@code null}
      * @throws IOException          in case deletion is unsuccessful
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(file) == \type(File);
+    //@ requires file != null;
+    //@ signals (IOException e);
+
     public static void forceDeleteOnExit(final File file) throws IOException {
         if (file.isDirectory()) {
             deleteDirectoryOnExit(file);
@@ -2434,6 +3260,12 @@ public class FileUtils {
      * @throws NullPointerException if the directory is {@code null}
      * @throws IOException          in case deletion is unsuccessful
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(directory) == \type(File);
+    //@ requires directory != null;
+    //@ signals (IOException e);
+
     private static void deleteDirectoryOnExit(final File directory) throws IOException {
         if (!directory.exists()) {
             return;
@@ -2452,6 +3284,12 @@ public class FileUtils {
      * @throws NullPointerException if the directory is {@code null}
      * @throws IOException          in case cleaning is unsuccessful
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(directory) == \type(File);
+    //@ requires directory != null;
+    //@ signals (IOException e);
+
     private static void cleanDirectoryOnExit(final File directory) throws IOException {
         final File[] files = verifiedListFiles(directory);
 
@@ -2480,6 +3318,12 @@ public class FileUtils {
      * @throws NullPointerException if the directory is {@code null}
      * @throws IOException          if the directory cannot be created or the file already exists but is not a directory
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(directory) == \type(File);
+    //@ requires directory != null;
+    //@ signals (IOException e);
+
     public static void forceMkdir(final File directory) throws IOException {
         if (directory.exists()) {
             if (!directory.isDirectory()) {
@@ -2512,6 +3356,12 @@ public class FileUtils {
      * @throws IOException          if the parent directory cannot be created
      * @since 2.5
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(file) == \type(File);
+    //@ requires file != null;
+    //@ signals (IOException e);
+
     public static void forceMkdirParent(final File file) throws IOException {
         final File parent = file.getParentFile();
         if (parent == null) {
@@ -2543,6 +3393,15 @@ public class FileUtils {
      *
      * @since 2.0
      */
+
+    //@ signals_only IllegalArgumentsException;
+    //@ requires \typeof(file) == \type(File);
+    //@ requires file != null;
+    //@ ensures \typeof(\result) == \type(long);
+    //@ ensures \result != null;
+    //@ signals (IllegalArgumentsException e);
+
+
     public static long sizeOf(final File file) {
 
         if (!file.exists()) {
@@ -2575,6 +3434,14 @@ public class FileUtils {
      *
      * @since 2.4
      */
+
+    //@ signals_only IllegalArgumentsException;
+    //@ requires \typeof(file) == \type(File);
+    //@ requires file != null;
+    //@ ensures \typeof(\result) == \type(BigInteger);
+    //@ ensures \result != null;
+    //@ signals (IllegalArgumentsException e);
+
     public static BigInteger sizeOfAsBigInteger(final File file) {
 
         if (!file.exists()) {
@@ -2601,6 +3468,12 @@ public class FileUtils {
      * is greater than {@link Long#MAX_VALUE}.
      * @throws NullPointerException if the directory is {@code null}
      */
+
+    //@ requires \typeof(directory) == \type(File);
+    //@ requires directory != null;
+    //@ ensures \typeof(\result) == \type(long);
+    //@ ensures \result != null;
+
     public static long sizeOfDirectory(final File directory) {
         checkDirectory(directory);
         return sizeOfDirectory0(directory);
@@ -2613,6 +3486,12 @@ public class FileUtils {
      * @param directory the directory to check
      * @return the size
      */
+
+    //@ requires \typeof(directory) == \type(File);
+    //@ requires directory != null;
+    //@ ensures \typeof(\result) == \type(long);
+    //@ ensures \result != null;
+
     private static long sizeOfDirectory0(final File directory) {
         final File[] files = directory.listFiles();
         if (files == null) {  // null if security restricted
@@ -2643,6 +3522,12 @@ public class FileUtils {
      * @param file the file to check
      * @return the size of the file
      */
+
+    //@ requires \typeof(file) == \type(File);
+    //@ requires file != null;
+    //@ ensures \typeof(\result) == \type(long);
+    //@ ensures \result != null;
+
     private static long sizeOf0(final File file) {
         if (file.isDirectory()) {
             return sizeOfDirectory0(file);
@@ -2658,6 +3543,12 @@ public class FileUtils {
      * @throws NullPointerException if the directory is {@code null}
      * @since 2.4
      */
+
+    //@ requires \typeof(directory) == \type(File);
+    //@ requires directory != null;
+    //@ ensures \typeof(\result) == \type(BigInteger);
+    //@ ensures \result != null;
+
     public static BigInteger sizeOfDirectoryAsBigInteger(final File directory) {
         checkDirectory(directory);
         return sizeOfDirectoryBig0(directory);
@@ -2671,6 +3562,12 @@ public class FileUtils {
      * @param directory The directory
      * @return the size
      */
+
+    //@ requires \typeof(directory) == \type(File);
+    //@ requires directory != null;
+    //@ ensures \typeof(\result) == \type(BigInteger);
+    //@ ensures \result != null;
+
     private static BigInteger sizeOfDirectoryBig0(final File directory) {
         final File[] files = directory.listFiles();
         if (files == null) {  // null if security restricted
@@ -2698,6 +3595,12 @@ public class FileUtils {
      * @param fileOrDir The file
      * @return the size
      */
+
+    //@ requires \typeof(fileOrDir) == \type(File);
+    //@ requires fileOrDir != null;
+    //@ ensures \typeof(\result) == \type(BigInteger);
+    //@ ensures \result != null;
+
     private static BigInteger sizeOfBig0(final File fileOrDir) {
         if (fileOrDir.isDirectory()) {
             return sizeOfDirectoryBig0(fileOrDir);
@@ -2711,6 +3614,12 @@ public class FileUtils {
      * @param directory The {@code File} to check.
      * @throws IllegalArgumentException if the given {@code File} does not exist or is not a directory.
      */
+
+    //@ signals_only IllegalArgumentsException;
+    //@ requires \typeof(directory) == \type(File);
+    //@ requires directory != null;
+    //@ signals (IllegalArgumentsException e);
+
     private static void checkDirectory(final File directory) {
         if (!directory.exists()) {
             throw new IllegalArgumentException(directory + " does not exist");
@@ -2734,6 +3643,16 @@ public class FileUtils {
      * @throws IllegalArgumentException if the file is {@code null}
      * @throws IllegalArgumentException if the reference file is {@code null} or doesn't exist
      */
+
+    //@ signals_only IllegalArgumentException;
+    //@ requires \typeof(file) == \type(File);
+    //@ requires file != null;
+    //@ requires \typeof(reference) == \type(File);
+    //@ requires reference != null;
+    //@ ensures \typeof(\result) == \type(boolean);
+    //@ ensures \result != null;
+    //@ signals (IllegalArgumentsException e);
+
     public static boolean isFileNewer(final File file, final File reference) {
         if (reference == null) {
             throw new IllegalArgumentException("No specified reference file");
@@ -2757,6 +3676,16 @@ public class FileUtils {
      * @throws IllegalArgumentException if the file is {@code null}
      * @throws IllegalArgumentException if the date is {@code null}
      */
+
+    //@ signals_only IllegalArgumentException;
+    //@ requires \typeof(file) == \type(File);
+    //@ requires file != null;
+    //@ requires \typeof(date) == \type(Date);
+    //@ requires date != null;
+    //@ ensures \typeof(\result) == \type(boolean);
+    //@ ensures \result != null;
+    //@ signals (IllegalArgumentsException e);
+
     public static boolean isFileNewer(final File file, final Date date) {
         if (date == null) {
             throw new IllegalArgumentException("No specified date");
@@ -2776,6 +3705,16 @@ public class FileUtils {
      * the given time reference.
      * @throws IllegalArgumentException if the file is {@code null}
      */
+
+    //@ signals_only IllegalArgumentException;
+    //@ requires \typeof(file) == \type(File);
+    //@ requires file != null;
+    //@ requires \typeof(timeMillis) == \type(long);
+    //@ requires timeMillis != null;
+    //@ ensures \typeof(\result) == \type(boolean);
+    //@ ensures \result != null;
+    //@ signals (IllegalArgumentsException e);
+
     public static boolean isFileNewer(final File file, final long timeMillis) {
         if (file == null) {
             throw new IllegalArgumentException("No specified file");
@@ -2801,6 +3740,16 @@ public class FileUtils {
      * @throws IllegalArgumentException if the file is {@code null}
      * @throws IllegalArgumentException if the reference file is {@code null} or doesn't exist
      */
+
+    //@ signals_only IllegalArgumentException;
+    //@ requires \typeof(file) == \type(File);
+    //@ requires file != null;
+    //@ requires \typeof(reference) == \type(File);
+    //@ requires reference != null;
+    //@ ensures \typeof(\result) == \type(boolean);
+    //@ ensures \result != null;
+    //@ signals (IllegalArgumentsException e);
+
     public static boolean isFileOlder(final File file, final File reference) {
         if (reference == null) {
             throw new IllegalArgumentException("No specified reference file");
@@ -2824,6 +3773,16 @@ public class FileUtils {
      * @throws IllegalArgumentException if the file is {@code null}
      * @throws IllegalArgumentException if the date is {@code null}
      */
+
+    //@ signals_only IllegalArgumentException;
+    //@ requires \typeof(file) == \type(File);
+    //@ requires file != null;
+    //@ requires \typeof(date) == \type(Date);
+    //@ requires date != null;
+    //@ ensures \typeof(\result) == \type(boolean);
+    //@ ensures \result != null;
+    //@ signals (IllegalArgumentsException e);
+
     public static boolean isFileOlder(final File file, final Date date) {
         if (date == null) {
             throw new IllegalArgumentException("No specified date");
@@ -2843,6 +3802,16 @@ public class FileUtils {
      * the given time reference.
      * @throws IllegalArgumentException if the file is {@code null}
      */
+
+    //@ signals_only IllegalArgumentException;
+    //@ requires \typeof(file) == \type(File);
+    //@ requires file != null;
+    //@ requires \typeof(timeMillis) == \type(long);
+    //@ requires timeMillis != null;
+    //@ ensures \typeof(\result) == \type(boolean);
+    //@ ensures \result != null;
+    //@ signals (IllegalArgumentsException e);
+
     public static boolean isFileOlder(final File file, final long timeMillis) {
         if (file == null) {
             throw new IllegalArgumentException("No specified file");
@@ -2865,6 +3834,14 @@ public class FileUtils {
      * @throws IOException              if an IO error occurs reading the file
      * @since 1.3
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(file) == \type(File);
+    //@ requires file != null;
+    //@ ensures \typeof(\result) == \type(long);
+    //@ ensures \result != null;
+    //@ signals (IOException e);
+
     public static long checksumCRC32(final File file) throws IOException {
         final CRC32 crc = new CRC32();
         checksum(file, crc);
@@ -2888,6 +3865,16 @@ public class FileUtils {
      * @throws IOException              if an IO error occurs reading the file
      * @since 1.3
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(file) == \type(File);
+    //@ requires file != null;
+    //@ requires \typeof(checksum) == \type(Checksum);
+    //@ requires checksum != null;
+    //@ ensures \typeof(\result) == \type(Checksum);
+    //@ ensures \result != null;
+    //@ signals (IOException e);
+
     public static Checksum checksum(final File file, final Checksum checksum) throws IOException {
         if (file.isDirectory()) {
             throw new IllegalArgumentException("Checksums can't be computed on directories");
@@ -2911,6 +3898,15 @@ public class FileUtils {
      * @throws IOException          if an IO error occurs moving the file
      * @since 1.4
      */
+
+    //@ signals_only IOException || FileExistsException;
+    //@ requires \typeof(srcDir) == \type(File);
+    //@ requires srcDir != null;
+    //@ requires \typeof(destDir) == \type(File);
+    //@ requires destDir != null;
+    //@ signals (IOException e);
+    //@ signals (FileExistsException e);
+
     public static void moveDirectory(final File srcDir, final File destDir) throws IOException {
         validateMoveParameters(srcDir, destDir);
         if (!srcDir.isDirectory()) {
@@ -2946,6 +3942,17 @@ public class FileUtils {
      * @throws IOException          if an IO error occurs moving the file
      * @since 1.4
      */
+
+    //@ signals_only IOException || FileExistsException;
+    //@ requires \typeof(srcDir) == \type(File);
+    //@ requires srcDir != null;
+    //@ requires \typeof(destDir) == \type(File);
+    //@ requires destDir != null;
+    //@ requires \typeof(createDestDir) == \type(boolean);
+    //@ requires createDestDir != null;
+    //@ signals (IOException e);
+    //@ signals (FileExistsException e);
+
     public static void moveDirectoryToDirectory(final File src, final File destDir, final boolean createDestDir)
             throws IOException {
         validateMoveParameters(src, destDir);
@@ -2975,6 +3982,14 @@ public class FileUtils {
      * @throws IOException          if an IO error occurs moving the file
      * @since 1.4
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(srcDir) == \type(File);
+    //@ requires srcDir != null;
+    //@ requires \typeof(destFile) == \type(File);
+    //@ requires destFile != null;
+    //@ signals (IOException e);
+
     public static void moveFile(final File srcFile, final File destFile) throws IOException {
         validateMoveParameters(srcFile, destFile);
         if (srcFile.isDirectory()) {
@@ -3010,6 +4025,17 @@ public class FileUtils {
      * @throws IOException          if an IO error occurs moving the file
      * @since 1.4
      */
+
+    //@ signals_only IOException || FileNotFoundException;
+    //@ requires \typeof(srcFile) == \type(File);
+    //@ requires srcFile != null;
+    //@ requires \typeof(destDir) == \type(File);
+    //@ requires destDir != null;
+    //@ requires \typeof(createDestDir) == \type(boolean);
+    //@ requires createDestDir != null;
+    //@ signals (IOException e);
+    //@ signals (FileNotFoundException e);
+
     public static void moveFileToDirectory(final File srcFile, final File destDir, final boolean createDestDir)
             throws IOException {
         validateMoveParameters(srcFile, destDir);
@@ -3041,6 +4067,16 @@ public class FileUtils {
      * @throws IOException          if an IO error occurs moving the file
      * @since 1.4
      */
+
+    //@ signals_only IOException;
+    //@ requires \typeof(src) == \type(File);
+    //@ requires src != null;
+    //@ requires \typeof(destDir) == \type(File);
+    //@ requires destDir != null;
+    //@ requires \typeof(createDestDir) == \type(boolean);
+    //@ requires createDestDir != null;
+    //@ signals (IOException e);
+
     public static void moveToDirectory(final File src, final File destDir, final boolean createDestDir)
             throws IOException {
         validateMoveParameters(src, destDir);
@@ -3063,6 +4099,15 @@ public class FileUtils {
      * @param dest                      the destination file or directory
      * @throws FileNotFoundException    if {@code src} file does not exist
      */
+
+    //@ signals_only FileNotFoundException || NullPointerException;
+    //@ requires \typeof(src) == \type(File);
+    //@ requires src != null;
+    //@ requires \typeof(dest) == \type(File);
+    //@ requires dest != null;
+    //@ signals (FileNotFoundException e);
+    //@ signals (NullPointerException e);
+
     private static void validateMoveParameters(final File src, final File dest) throws FileNotFoundException {
         if (src == null) {
             throw new NullPointerException("Source must not be null");
@@ -3094,6 +4139,15 @@ public class FileUtils {
      * @throws IOException if an IO error occurs while checking the file
      * @since 2.0
      */
+
+    //@ signals_only IOException || NullPointerException;
+    //@ requires \typeof(file) == \type(File);
+    //@ requires file != null;
+    //@ ensures \typeof(\result) == \type(boolean);
+    //@ ensures \result != null;
+    //@ signals (IOException e);
+    //@ signals (NullPointerException e);
+
     public static boolean isSymlink(final File file) throws IOException {
         if (file == null) {
             throw new NullPointerException("File must not be null");
