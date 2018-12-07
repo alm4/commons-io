@@ -58,6 +58,10 @@ public class SuffixFileFilter extends AbstractFileFilter implements Serializable
      * @param suffix  the suffix to allow, must not be null
      * @throws IllegalArgumentException if the suffix is null
      */
+
+    //@ requires \typeof(suffix) == \type(String);
+    //@ requires suffix != null;
+    
     public SuffixFileFilter(final String suffix) {
         this(suffix, IOCase.SENSITIVE);
     }
@@ -71,6 +75,14 @@ public class SuffixFileFilter extends AbstractFileFilter implements Serializable
      * @throws IllegalArgumentException if the suffix is null
      * @since 1.4
      */
+
+    //@ signals_only IllegalArgumentException;
+    //@ requires \typeof(suffix) == \type(String);
+    //@ requires suffix != null;
+    //@ requires \typeof(caseSensitivity) == \type(IOCase);
+    //@ requires caseSensitivity != null;
+    //@ signals (IllegalArgumentException e);
+    
     public SuffixFileFilter(final String suffix, final IOCase caseSensitivity) {
         if (suffix == null) {
             throw new IllegalArgumentException("The suffix must not be null");
@@ -88,6 +100,10 @@ public class SuffixFileFilter extends AbstractFileFilter implements Serializable
      * @param suffixes  the suffixes to allow, must not be null
      * @throws IllegalArgumentException if the suffix array is null
      */
+
+    //@ requires \typeof(suffixes) == \type(String[]);
+    //@ requires suffixes != null;
+    
     public SuffixFileFilter(final String[] suffixes) {
         this(suffixes, IOCase.SENSITIVE);
     }
@@ -101,6 +117,14 @@ public class SuffixFileFilter extends AbstractFileFilter implements Serializable
      * @throws IllegalArgumentException if the suffix array is null
      * @since 1.4
      */
+
+    //@ signals_only IllegalArgumentException;
+    //@ requires \typeof(suffixes) == \type(String[]);
+    //@ requires suffixes != null;
+    //@ requires \typeof(caseSensitivity) == \type(IOCase);
+    //@ requires caseSensitivity != null;
+    //@ signals (IllegalArgumentException e);
+    
     public SuffixFileFilter(final String[] suffixes, final IOCase caseSensitivity) {
         if (suffixes == null) {
             throw new IllegalArgumentException("The array of suffixes must not be null");
@@ -117,6 +141,10 @@ public class SuffixFileFilter extends AbstractFileFilter implements Serializable
      * @throws IllegalArgumentException if the suffix list is null
      * @throws ClassCastException if the list does not contain Strings
      */
+
+    //@ requires \typeof(suffixes) == \type(List<String>);
+    //@ requires suffixes != null;
+    
     public SuffixFileFilter(final List<String> suffixes) {
         this(suffixes, IOCase.SENSITIVE);
     }
@@ -131,6 +159,14 @@ public class SuffixFileFilter extends AbstractFileFilter implements Serializable
      * @throws ClassCastException if the list does not contain Strings
      * @since 1.4
      */
+
+    //@ signals_only IllegalArgumentException;
+    //@ requires \typeof(suffixes) == \type(List<String>);
+    //@ requires suffixes != null;
+    //@ requires \typeof(caseSensitivity) == \type(IOCase);
+    //@ requires caseSensitivity != null;
+    //@ signals (IllegalArgumentException e);
+    
     public SuffixFileFilter(final List<String> suffixes, final IOCase caseSensitivity) {
         if (suffixes == null) {
             throw new IllegalArgumentException("The list of suffixes must not be null");
@@ -145,6 +181,10 @@ public class SuffixFileFilter extends AbstractFileFilter implements Serializable
      * @param file  the File to check
      * @return true if the filename ends with one of our suffixes
      */
+
+    //@ requires \typeof(file) == \type(File);
+    //@ requires file != null;
+    
     @Override
     public boolean accept(final File file) {
         final String name = file.getName();
@@ -163,6 +203,12 @@ public class SuffixFileFilter extends AbstractFileFilter implements Serializable
      * @param name  the filename
      * @return true if the filename ends with one of our suffixes
      */
+
+    //@ requires \typeof(file) == \type(File);
+    //@ requires file != null;
+    //@ requires \typeof(name) == \type(String);
+    //@ requires name != null;
+    
     @Override
     public boolean accept(final File file, final String name) {
         for (final String suffix : this.suffixes) {
@@ -178,6 +224,10 @@ public class SuffixFileFilter extends AbstractFileFilter implements Serializable
      *
      * @return a String representation
      */
+
+    //@ ensures \typeof(\result) == \type(String);
+    //@ ensures \result != null;
+    
     @Override
     public String toString() {
         final StringBuilder buffer = new StringBuilder();
