@@ -41,6 +41,7 @@ import org.apache.commons.io.IOCase;
  *
  * @since 1.4
  */
+
 public class RegexFileFilter extends AbstractFileFilter implements Serializable {
 
     private static final long serialVersionUID = 4269646126155225062L;
@@ -53,6 +54,12 @@ public class RegexFileFilter extends AbstractFileFilter implements Serializable 
      * @param pattern regular string expression to match
      * @throws IllegalArgumentException if the pattern is null
      */
+
+    //@ signals_only IllegalArgumentException;
+    //@ requires \typeof(pattern) == \type(String);
+    //@ requires pattern != null;
+    //@ signals (IllegalArgumentException e);
+    
     public RegexFileFilter(final String pattern) {
         if (pattern == null) {
             throw new IllegalArgumentException("Pattern is missing");
@@ -68,6 +75,14 @@ public class RegexFileFilter extends AbstractFileFilter implements Serializable 
      * @param caseSensitivity  how to handle case sensitivity, null means case-sensitive
      * @throws IllegalArgumentException if the pattern is null
      */
+
+    //@ signals_only IllegalArgumentException;
+    //@ requires \typeof(pattern) == \type(String);
+    //@ requires pattern != null;
+    //@ requires \typeof(caseSensitivity) == \type(IOCase);
+    //@ requires caseSensitivity != null;
+    //@ signals (IllegalArgumentException e);
+    
     public RegexFileFilter(final String pattern, final IOCase caseSensitivity) {
         if (pattern == null) {
             throw new IllegalArgumentException("Pattern is missing");
@@ -86,6 +101,14 @@ public class RegexFileFilter extends AbstractFileFilter implements Serializable 
      * @param flags pattern flags - e.g. {@link Pattern#CASE_INSENSITIVE}
      * @throws IllegalArgumentException if the pattern is null
      */
+
+    //@ signals_only IllegalArgumentException;
+    //@ requires \typeof(pattern) == \type(String);
+    //@ requires pattern != null;
+    //@ requires \typeof(flags) == \type(int);
+    //@ requires flags != null;
+    //@ signals (IllegalArgumentException e);
+    
     public RegexFileFilter(final String pattern, final int flags) {
         if (pattern == null) {
             throw new IllegalArgumentException("Pattern is missing");
@@ -99,6 +122,12 @@ public class RegexFileFilter extends AbstractFileFilter implements Serializable 
      * @param pattern regular expression to match
      * @throws IllegalArgumentException if the pattern is null
      */
+
+    //@ signals_only IllegalArgumentException;
+    //@ requires \typeof(pattern) == \type(Pattern);
+    //@ requires pattern != null;
+    //@ signals (IllegalArgumentException e);
+    
     public RegexFileFilter(final Pattern pattern) {
         if (pattern == null) {
             throw new IllegalArgumentException("Pattern is missing");
@@ -114,6 +143,12 @@ public class RegexFileFilter extends AbstractFileFilter implements Serializable 
      * @param name  the filename
      * @return true if the filename matches one of the regular expressions
      */
+
+    //@ requires \typeof(dir) == \type(File);
+    //@ requires dir != null;
+    //@ requires \typeof(name) == \type(String);
+    //@ requires name != null;
+    
     @Override
     public boolean accept(final File dir, final String name) {
         return pattern.matcher(name).matches();
