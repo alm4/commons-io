@@ -73,6 +73,16 @@ public class FileFilterUtils {
      *
      * @since 2.0
      */
+
+    //@ signals_only IllegalArgumentException;
+    //@ requires \typeof(filter) == \type(IOFileFilter);
+    //@ requires filter != null;
+    //@ requires \typeof(files) == \type(File...);
+    //@ requires files != null;
+    //@ ensures \typeof(\result) == \type(File[]);
+    //@ ensures \result != null;
+    //@ signals (IllegalArgumentException e);
+
     public static File[] filter(final IOFileFilter filter, final File... files) {
         if (filter == null) {
             throw new IllegalArgumentException("file filter is null");
@@ -118,6 +128,14 @@ public class FileFilterUtils {
      *
      * @since 2.0
      */
+
+    //@ requires \typeof(filter) == \type(IOFileFilter);
+    //@ requires filter != null;
+    //@ requires \typeof(files) == \type(Iterable<File>);
+    //@ requires files != null;
+    //@ ensures \typeof(\result) == \type(File[]);
+    //@ ensures \result != null;
+
     public static File[] filter(final IOFileFilter filter, final Iterable<File> files) {
         final List<File> acceptedFiles = filterList(filter, files);
         return acceptedFiles.toArray(new File[acceptedFiles.size()]);
@@ -148,6 +166,14 @@ public class FileFilterUtils {
      *         or <code>files</code> contains a {@code null} value.
      * @since 2.0
      */
+
+    //@ requires \typeof(filter) == \type(IOFileFilter);
+    //@ requires filter != null;
+    //@ requires \typeof(files) == \type(Iterable<File>);
+    //@ requires files != null;
+    //@ ensures \typeof(\result) == \type(List<File>);
+    //@ ensures \result != null;
+
     public static List<File> filterList(final IOFileFilter filter, final Iterable<File> files) {
         return filter(filter, files, new ArrayList<File>());
     }
@@ -177,6 +203,14 @@ public class FileFilterUtils {
      *         or <code>files</code> contains a {@code null} value.
      * @since 2.0
      */
+
+    //@ requires \typeof(filter) == \type(IOFileFilter);
+    //@ requires filter != null;
+    //@ requires \typeof(files) == \type(File...);
+    //@ requires files != null;
+    //@ ensures \typeof(\result) == \type(List<File>);
+    //@ ensures \result != null;
+
     public static List<File> filterList(final IOFileFilter filter, final File... files) {
         final File[] acceptedFiles = filter(filter, files);
         return Arrays.asList(acceptedFiles);
@@ -208,6 +242,14 @@ public class FileFilterUtils {
      *
      * @since 2.0
      */
+
+    //@ requires \typeof(filter) == \type(IOFileFilter);
+    //@ requires filter != null;
+    //@ requires \typeof(files) == \type(File...);
+    //@ requires files != null;
+    //@ ensures \typeof(\result) == \type(Set<File>);
+    //@ ensures \result != null;
+
     public static Set<File> filterSet(final IOFileFilter filter, final File... files) {
         final File[] acceptedFiles = filter(filter, files);
         return new HashSet<>(Arrays.asList(acceptedFiles));
@@ -239,6 +281,14 @@ public class FileFilterUtils {
      *
      * @since 2.0
      */
+
+    //@ requires \typeof(filter) == \type(IOFileFilter);
+    //@ requires filter != null;
+    //@ requires \typeof(files) == \type(Iterable<File>);
+    //@ requires files != null;
+    //@ ensures \typeof(\result) == \type(Set<File>);
+    //@ ensures \result != null;
+
     public static Set<File> filterSet(final IOFileFilter filter, final Iterable<File> files) {
         return filter(filter, files, new HashSet<File>());
     }
@@ -265,6 +315,18 @@ public class FileFilterUtils {
      * @throws IllegalArgumentException if the filter is {@code null}
      *         or <code>files</code> contains a {@code null} value.
      */
+
+    //@ signals_only IllegalArgumentException;
+    //@ requires \typeof(filter) == \type(IOFileFilter);
+    //@ requires filter != null;
+    //@ requires \typeof(files) == \type(Iterable<File>);
+    //@ requires files != null;
+    //@ requires \typeof(acceptedFiles) == \type(<T extends Collection<File>> T);
+    //@ requires filacceptedFileses != null;
+    //@ ensures \typeof(\result) == \type(<T extends Collection<File>> T);
+    //@ ensures \result != null;
+    //@ signals (IllegalArgumentException e);
+
     private static <T extends Collection<File>> T filter(final IOFileFilter filter,
             final Iterable<File> files, final T acceptedFiles) {
         if (filter == null) {
@@ -290,6 +352,12 @@ public class FileFilterUtils {
      * @return a prefix checking filter
      * @see PrefixFileFilter
      */
+
+    //@ requires \typeof(prefix) == \type(String);
+    //@ requires prefix != null;
+    //@ ensures \typeof(\result) == \type(IOFileFilter);
+    //@ ensures \result != null;
+
     public static IOFileFilter prefixFileFilter(final String prefix) {
         return new PrefixFileFilter(prefix);
     }
@@ -303,6 +371,14 @@ public class FileFilterUtils {
      * @see PrefixFileFilter
      * @since 2.0
      */
+
+    //@ requires \typeof(prefix) == \type(String);
+    //@ requires prefix != null;
+    //@ requires \typeof(caseSensitivity) == \type(IOCase);
+    //@ requires caseSensitivity != null;
+    //@ ensures \typeof(\result) == \type(IOFileFilter);
+    //@ ensures \result != null;
+
     public static IOFileFilter prefixFileFilter(final String prefix, final IOCase caseSensitivity) {
         return new PrefixFileFilter(prefix, caseSensitivity);
     }
@@ -314,6 +390,14 @@ public class FileFilterUtils {
      * @return a suffix checking filter
      * @see SuffixFileFilter
      */
+
+    //@ requires \typeof(suffix) == \type(String);
+    //@ requires suffix != null;
+    //@ requires \typeof(caseSensitivity) == \type(IOCase);
+    //@ requires caseSensitivity != null;
+    //@ ensures \typeof(\result) == \type(IOFileFilter);
+    //@ ensures \result != null;
+
     public static IOFileFilter suffixFileFilter(final String suffix) {
         return new SuffixFileFilter(suffix);
     }
@@ -327,6 +411,14 @@ public class FileFilterUtils {
      * @see SuffixFileFilter
      * @since 2.0
      */
+
+    //@ requires \typeof(suffix) == \type(String);
+    //@ requires suffix != null;
+    //@ requires \typeof(caseSensitivity) == \type(IOCase);
+    //@ requires caseSensitivity != null;
+    //@ ensures \typeof(\result) == \type(IOFileFilter);
+    //@ ensures \result != null;
+
     public static IOFileFilter suffixFileFilter(final String suffix, final IOCase caseSensitivity) {
         return new SuffixFileFilter(suffix, caseSensitivity);
     }
@@ -338,6 +430,12 @@ public class FileFilterUtils {
      * @return a name checking filter
      * @see NameFileFilter
      */
+
+    //@ requires \typeof(name) == \type(String);
+    //@ requires name != null;
+    //@ ensures \typeof(\result) == \type(IOFileFilter);
+    //@ ensures \result != null;
+
     public static IOFileFilter nameFileFilter(final String name) {
         return new NameFileFilter(name);
     }
@@ -351,6 +449,14 @@ public class FileFilterUtils {
      * @see NameFileFilter
      * @since 2.0
      */
+
+    //@ requires \typeof(name) == \type(String);
+    //@ requires name != null;
+    //@ requires \typeof(caseSensitivity) == \type(IOCase);
+    //@ requires caseSensitivity != null;
+    //@ ensures \typeof(\result) == \type(IOFileFilter);
+    //@ ensures \result != null;
+
     public static IOFileFilter nameFileFilter(final String name, final IOCase caseSensitivity) {
         return new NameFileFilter(name, caseSensitivity);
     }
@@ -361,6 +467,10 @@ public class FileFilterUtils {
      * @return file filter that accepts only directories and not files
      * @see DirectoryFileFilter#DIRECTORY
      */
+
+    //@ ensures \typeof(\result) == \type(IOFileFilter);
+    //@ ensures \result != null;
+
     public static IOFileFilter directoryFileFilter() {
         return DirectoryFileFilter.DIRECTORY;
     }
@@ -371,6 +481,10 @@ public class FileFilterUtils {
      * @return file filter that accepts only files and not directories
      * @see FileFileFilter#FILE
      */
+
+    //@ ensures \typeof(\result) == \type(IOFileFilter);
+    //@ ensures \result != null;
+
     public static IOFileFilter fileFileFilter() {
         return FileFileFilter.FILE;
     }
@@ -386,6 +500,14 @@ public class FileFilterUtils {
      * @see AndFileFilter
      * @deprecated use {@link #and(IOFileFilter...)}
      */
+
+    //@ requires \typeof(filter1) == \type(IOFileFilter);
+    //@ requires filter1 != null;
+    //@ requires \typeof(filter1) == \type(IOFileFilter);
+    //@ requires filter1 != null;
+    //@ ensures \typeof(\result) == \type(IOFileFilter);
+    //@ ensures \result != null;
+
     @Deprecated
     public static IOFileFilter andFileFilter(final IOFileFilter filter1, final IOFileFilter filter2) {
         return new AndFileFilter(filter1, filter2);
@@ -401,6 +523,14 @@ public class FileFilterUtils {
      * @see OrFileFilter
      * @deprecated use {@link #or(IOFileFilter...)}
      */
+
+    //@ requires \typeof(filter1) == \type(IOFileFilter);
+    //@ requires filter1 != null;
+    //@ requires \typeof(filter1) == \type(IOFileFilter);
+    //@ requires filter1 != null;
+    //@ ensures \typeof(\result) == \type(IOFileFilter);
+    //@ ensures \result != null;
+
     @Deprecated
     public static IOFileFilter orFileFilter(final IOFileFilter filter1, final IOFileFilter filter2) {
         return new OrFileFilter(filter1, filter2);
@@ -417,6 +547,12 @@ public class FileFilterUtils {
      * @see AndFileFilter
      * @since 2.0
      */
+
+    //@ requires \typeof(filters) == \type(IOFileFilter...);
+    //@ requires filters != null;
+    //@ ensures \typeof(\result) == \type(IOFileFilter);
+    //@ ensures \result != null;
+
     public static IOFileFilter and(final IOFileFilter... filters) {
         return new AndFileFilter(toList(filters));
     }
@@ -432,6 +568,12 @@ public class FileFilterUtils {
      * @see OrFileFilter
      * @since 2.0
      */
+
+    //@ requires \typeof(filters) == \type(IOFileFilter...);
+    //@ requires filters != null;
+    //@ ensures \typeof(\result) == \type(IOFileFilter);
+    //@ ensures \result != null;
+
     public static IOFileFilter or(final IOFileFilter... filters) {
         return new OrFileFilter(toList(filters));
     }
@@ -445,6 +587,14 @@ public class FileFilterUtils {
      *         null value.
      * @since 2.0
      */
+
+    //@ signals_only IllegalArgumentException;
+    //@ requires \typeof(filters) == \type(IOFileFilter...);
+    //@ requires filters != null;
+    //@ ensures \typeof(\result) == \type(List<IOFileFilter>);
+    //@ ensures \result != null;
+    //@ signals (IllegalArgumentException e);
+
     public static List<IOFileFilter> toList(final IOFileFilter... filters) {
         if (filters == null) {
             throw new IllegalArgumentException("The filters must not be null");
@@ -466,6 +616,12 @@ public class FileFilterUtils {
      * @return a filter that NOTs the specified filter
      * @see NotFileFilter
      */
+
+    //@ requires \typeof(filter) == \type(IOFileFilter);
+    //@ requires filter != null;
+    //@ ensures \typeof(\result) == \type(IOFileFilter);
+    //@ ensures \result != null;
+
     public static IOFileFilter notFileFilter(final IOFileFilter filter) {
         return new NotFileFilter(filter);
     }
@@ -477,6 +633,10 @@ public class FileFilterUtils {
      * @return a true filter
      * @see TrueFileFilter#TRUE
      */
+
+    //@ ensures \typeof(\result) == \type(IOFileFilter);
+    //@ ensures \result != null;
+
     public static IOFileFilter trueFileFilter() {
         return TrueFileFilter.TRUE;
     }
@@ -487,6 +647,10 @@ public class FileFilterUtils {
      * @return a false filter
      * @see FalseFileFilter#FALSE
      */
+
+    //@ ensures \typeof(\result) == \type(IOFileFilter);
+    //@ ensures \result != null;
+
     public static IOFileFilter falseFileFilter() {
         return FalseFileFilter.FALSE;
     }
@@ -500,6 +664,12 @@ public class FileFilterUtils {
      * @return a new filter that implements IOFileFilter
      * @see DelegateFileFilter
      */
+
+    //@ requires \typeof(filter) == \type(FileFilter);
+    //@ requires filter != null;
+    //@ ensures \typeof(\result) == \type(IOFileFilter);
+    //@ ensures \result != null;
+
     public static IOFileFilter asFileFilter(final FileFilter filter) {
         return new DelegateFileFilter(filter);
     }
@@ -512,6 +682,12 @@ public class FileFilterUtils {
      * @return a new filter that implements IOFileFilter
      * @see DelegateFileFilter
      */
+
+    //@ requires \typeof(filter) == \type(FilenameFilter);
+    //@ requires filter != null;
+    //@ ensures \typeof(\result) == \type(IOFileFilter);
+    //@ ensures \result != null;
+
     public static IOFileFilter asFileFilter(final FilenameFilter filter) {
         return new DelegateFileFilter(filter);
     }
@@ -526,6 +702,12 @@ public class FileFilterUtils {
      * @see AgeFileFilter
      * @since 1.2
      */
+
+    //@ requires \typeof(cutoff) == \type(long);
+    //@ requires cutoff != null;
+    //@ ensures \typeof(\result) == \type(IOFileFilter);
+    //@ ensures \result != null;
+
     public static IOFileFilter ageFileFilter(final long cutoff) {
         return new AgeFileFilter(cutoff);
     }
@@ -539,6 +721,14 @@ public class FileFilterUtils {
      * @see AgeFileFilter
      * @since 1.2
      */
+
+    //@ requires \typeof(cutoff) == \type(long);
+    //@ requires cutoff != null;
+    //@ requires \typeof(acceptOlder) == \type(boolean);
+    //@ requires acceptOlder != null;
+    //@ ensures \typeof(\result) == \type(IOFileFilter);
+    //@ ensures \result != null;
+
     public static IOFileFilter ageFileFilter(final long cutoff, final boolean acceptOlder) {
         return new AgeFileFilter(cutoff, acceptOlder);
     }
@@ -552,6 +742,12 @@ public class FileFilterUtils {
      * @see AgeFileFilter
      * @since 1.2
      */
+
+    //@ requires \typeof(cutoffDate) == \type(Date);
+    //@ requires cutoffDate != null;
+    //@ ensures \typeof(\result) == \type(IOFileFilter);
+    //@ ensures \result != null;
+
     public static IOFileFilter ageFileFilter(final Date cutoffDate) {
         return new AgeFileFilter(cutoffDate);
     }
@@ -565,6 +761,14 @@ public class FileFilterUtils {
      * @see AgeFileFilter
      * @since 1.2
      */
+
+    //@ requires \typeof(cutoffDate) == \type(Date);
+    //@ requires cutoffDate != null;
+    //@ requires \typeof(acceptOlder) == \type(boolean);
+    //@ requires acceptOlder != null;
+    //@ ensures \typeof(\result) == \type(IOFileFilter);
+    //@ ensures \result != null;
+
     public static IOFileFilter ageFileFilter(final Date cutoffDate, final boolean acceptOlder) {
         return new AgeFileFilter(cutoffDate, acceptOlder);
     }
@@ -579,6 +783,12 @@ public class FileFilterUtils {
      * @see AgeFileFilter
      * @since 1.2
      */
+
+    //@ requires \typeof(cutoffReference) == \type(File);
+    //@ requires cutoffReference != null;
+    //@ ensures \typeof(\result) == \type(IOFileFilter);
+    //@ ensures \result != null;
+
     public static IOFileFilter ageFileFilter(final File cutoffReference) {
         return new AgeFileFilter(cutoffReference);
     }
@@ -593,6 +803,14 @@ public class FileFilterUtils {
      * @see AgeFileFilter
      * @since 1.2
      */
+
+    //@ requires \typeof(cutoffReference) == \type(File);
+    //@ requires cutoffReference != null;
+    //@ requires \typeof(acceptOlder) == \type(boolean);
+    //@ requires acceptOlder != null;
+    //@ ensures \typeof(\result) == \type(IOFileFilter);
+    //@ ensures \result != null;
+
     public static IOFileFilter ageFileFilter(final File cutoffReference, final boolean acceptOlder) {
         return new AgeFileFilter(cutoffReference, acceptOlder);
     }
@@ -606,6 +824,12 @@ public class FileFilterUtils {
      * @see SizeFileFilter
      * @since 1.2
      */
+
+    //@ requires \typeof(threshold) == \type(long);
+    //@ requires threshold != null;
+    //@ ensures \typeof(\result) == \type(IOFileFilter);
+    //@ ensures \result != null;
+
     public static IOFileFilter sizeFileFilter(final long threshold) {
         return new SizeFileFilter(threshold);
     }
@@ -619,6 +843,15 @@ public class FileFilterUtils {
      * @see SizeFileFilter
      * @since 1.2
      */
+
+
+    //@ requires \typeof(threshold) == \type(long);
+    //@ requires threshold != null;
+    //@ requires \typeof(acceptLarger) == \type(boolean);
+    //@ requires acceptLarger != null;
+    //@ ensures \typeof(\result) == \type(IOFileFilter);
+    //@ ensures \result != null;
+
     public static IOFileFilter sizeFileFilter(final long threshold, final boolean acceptLarger) {
         return new SizeFileFilter(threshold, acceptLarger);
     }
@@ -633,6 +866,14 @@ public class FileFilterUtils {
      * @see SizeFileFilter
      * @since 1.3
      */
+
+    //@ requires \typeof(minSizeInclusive) == \type(long);
+    //@ requires minSizeInclusive != null;
+    //@ requires \typeof(maxSizeInclusive) == \type(long);
+    //@ requires maxSizeInclusive != null;
+    //@ ensures \typeof(\result) == \type(IOFileFilter);
+    //@ ensures \result != null;
+
     public static IOFileFilter sizeRangeFileFilter(final long minSizeInclusive, final long maxSizeInclusive ) {
         final IOFileFilter minimumFilter = new SizeFileFilter(minSizeInclusive, true);
         final IOFileFilter maximumFilter = new SizeFileFilter(maxSizeInclusive + 1L, false);
@@ -654,6 +895,12 @@ public class FileFilterUtils {
      * @see MagicNumberFileFilter
      * @since 2.0
      */
+
+    //@ requires \typeof(magicNumber) == \type(String);
+    //@ requires magicNumber != null;
+    //@ ensures \typeof(\result) == \type(IOFileFilter);
+    //@ ensures \result != null;
+
     public static IOFileFilter magicNumberFileFilter(final String magicNumber) {
         return new MagicNumberFileFilter(magicNumber);
     }
@@ -675,6 +922,14 @@ public class FileFilterUtils {
      * @see MagicNumberFileFilter
      * @since 2.0
      */
+
+    //@ requires \typeof(magicNumber) == \type(String);
+    //@ requires magicNumber != null;
+    //@ requires \typeof(offset) == \type(long);
+    //@ requires offset != null;
+    //@ ensures \typeof(\result) == \type(IOFileFilter);
+    //@ ensures \result != null;
+
     public static IOFileFilter magicNumberFileFilter(final String magicNumber, final long offset) {
         return new MagicNumberFileFilter(magicNumber, offset);
     }
@@ -694,6 +949,12 @@ public class FileFilterUtils {
      * @see MagicNumberFileFilter
      * @since 2.0
      */
+
+    //@ requires \typeof(magicNumber) == \type(byte[]);
+    //@ requires magicNumber != null;
+    //@ ensures \typeof(\result) == \type(IOFileFilter);
+    //@ ensures \result != null;
+
     public static IOFileFilter magicNumberFileFilter(final byte[] magicNumber) {
         return new MagicNumberFileFilter(magicNumber);
     }
@@ -715,6 +976,14 @@ public class FileFilterUtils {
      * @see MagicNumberFileFilter
      * @since 2.0
      */
+
+    //@ requires \typeof(magicNumber) == \type(byte[]);
+    //@ requires magicNumber != null;
+    //@ requires \typeof(offset) == \type(long);
+    //@ requires offset != null;
+    //@ ensures \typeof(\result) == \type(IOFileFilter);
+    //@ ensures \result != null;
+
     public static IOFileFilter magicNumberFileFilter(final byte[] magicNumber, final long offset) {
         return new MagicNumberFileFilter(magicNumber, offset);
     }
@@ -737,6 +1006,12 @@ public class FileFilterUtils {
      * @return the decorated filter, never null
      * @since 1.1 (method existed but had bug in 1.0)
      */
+
+    //@ requires \typeof(filter) == \type(IOFileFilter);
+    //@ requires filter != null;
+    //@ ensures \typeof(\result) == \type(IOFileFilter);
+    //@ ensures \result != null;
+
     public static IOFileFilter makeCVSAware(final IOFileFilter filter) {
         return filter == null ? cvsFilter : and(filter, cvsFilter);
     }
@@ -750,6 +1025,12 @@ public class FileFilterUtils {
      * @return the decorated filter, never null
      * @since 1.1
      */
+
+    //@ requires \typeof(filter) == \type(IOFileFilter);
+    //@ requires filter != null;
+    //@ ensures \typeof(\result) == \type(IOFileFilter);
+    //@ ensures \result != null;
+
     public static IOFileFilter makeSVNAware(final IOFileFilter filter) {
         return filter == null ? svnFilter : and(filter, svnFilter);
     }
@@ -763,6 +1044,12 @@ public class FileFilterUtils {
      * @see DirectoryFileFilter#DIRECTORY
      * @since 1.3
      */
+
+    //@ requires \typeof(filter) == \type(IOFileFilter);
+    //@ requires filter != null;
+    //@ ensures \typeof(\result) == \type(IOFileFilter);
+    //@ ensures \result != null;
+
     public static IOFileFilter makeDirectoryOnly(final IOFileFilter filter) {
         if (filter == null) {
             return DirectoryFileFilter.DIRECTORY;
@@ -778,6 +1065,12 @@ public class FileFilterUtils {
      * @see FileFileFilter#FILE
      * @since 1.3
      */
+
+    //@ requires \typeof(filter) == \type(IOFileFilter);
+    //@ requires filter != null;
+    //@ ensures \typeof(\result) == \type(IOFileFilter);
+    //@ ensures \result != null;
+
     public static IOFileFilter makeFileOnly(final IOFileFilter filter) {
         if (filter == null) {
             return FileFileFilter.FILE;
