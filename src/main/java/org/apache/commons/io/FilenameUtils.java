@@ -141,6 +141,10 @@ public class FilenameUtils {
      *
      * @return true if the system is Windows
      */
+
+    //@ ensures \typeof(\result) == \type(boolean);
+    //@ ensures \result != null;
+
     static boolean isSystemWindows() {
         return SYSTEM_SEPARATOR == WINDOWS_SEPARATOR;
     }
@@ -152,6 +156,12 @@ public class FilenameUtils {
      * @param ch  the character to check
      * @return true if it is a separator character
      */
+
+    //@ requires \typeof(ch) == \type(char);
+    //@ requires ch != null;
+    //@ ensures \typeof(\result) == \type(boolean);
+    //@ ensures \result != null;
+
     private static boolean isSeparator(final char ch) {
         return ch == UNIX_SEPARATOR || ch == WINDOWS_SEPARATOR;
     }
@@ -197,6 +207,12 @@ public class FilenameUtils {
      * @param fileName  the fileName to normalize, null returns null
      * @return the normalized fileName, or null if invalid. Null bytes inside string will be removed
      */
+
+    //@ requires \typeof(fileName) == \type(String);
+    //@ requires fileName != null;
+    //@ ensures \typeof(\result) == \type(String);
+    //@ ensures \result != null;
+
     public static String normalize(final String fileName) {
         return doNormalize(fileName, SYSTEM_SEPARATOR, true);
     }
@@ -244,6 +260,14 @@ public class FilenameUtils {
      * @return the normalized fileName, or null if invalid. Null bytes inside string will be removed
      * @since 2.0
      */
+
+    //@ requires \typeof(fileName) == \type(String);
+    //@ requires fileName != null;
+    //@ requires \typeof(unixSeparator) == \type(boolean);
+    //@ requires unixSeparator != null;
+    //@ ensures \typeof(\result) == \type(String);
+    //@ ensures \result != null;
+
     public static String normalize(final String fileName, final boolean unixSeparator) {
         final char separator = unixSeparator ? UNIX_SEPARATOR : WINDOWS_SEPARATOR;
         return doNormalize(fileName, separator, true);
@@ -291,6 +315,12 @@ public class FilenameUtils {
      * @param fileName  the fileName to normalize, null returns null
      * @return the normalized fileName, or null if invalid. Null bytes inside string will be removed
      */
+
+    //@ requires \typeof(fileName) == \type(String);
+    //@ requires fileName != null;
+    //@ ensures \typeof(\result) == \type(String);
+    //@ ensures \result != null;
+
     public static String normalizeNoEndSeparator(final String fileName) {
         return doNormalize(fileName, SYSTEM_SEPARATOR, false);
     }
@@ -338,6 +368,14 @@ public class FilenameUtils {
      * @return the normalized fileName, or null if invalid. Null bytes inside string will be removed
      * @since 2.0
      */
+
+    //@ requires \typeof(fileName) == \type(String);
+    //@ requires fileName != null;
+    //@ requires \typeof(unixSeparator) == \type(boolean);
+    //@ requires unixSeparator != null;
+    //@ ensures \typeof(\result) == \type(String);
+    //@ ensures \result != null;
+
     public static String normalizeNoEndSeparator(final String fileName, final boolean unixSeparator) {
          final char separator = unixSeparator ? UNIX_SEPARATOR : WINDOWS_SEPARATOR;
         return doNormalize(fileName, separator, false);
@@ -351,6 +389,16 @@ public class FilenameUtils {
      * @param keepSeparator  true to keep the final separator
      * @return the normalized fileName. Null bytes inside string will be removed.
      */
+
+    //@ requires \typeof(fileName) == \type(String);
+    //@ requires fileName != null;
+    //@ requires \typeof(separator) == \type(char);
+    //@ requires separator != null;
+    //@ requires \typeof(keepSeparator) == \type(boolean);
+    //@ requires keepSeparator != null;
+    //@ ensures \typeof(\result) == \type(String);
+    //@ ensures \result != null;
+
     private static String doNormalize(final String fileName, final char separator, final boolean keepSeparator) {
         if (fileName == null) {
             return null;
@@ -488,6 +536,14 @@ public class FilenameUtils {
      * @param fullFileNameToAdd  the fileName (or path) to attach to the base
      * @return the concatenated path, or null if invalid.  Null bytes inside string will be removed
      */
+
+    //@ requires \typeof(basePath) == \type(String);
+    //@ requires basePath != null;
+    //@ requires \typeof(fullFileNameToAdd) == \type(String);
+    //@ requires fullFileNameToAdd != null;
+    //@ ensures \typeof(\result) == \type(String);
+    //@ ensures \result != null;
+
     public static String concat(final String basePath, final String fullFileNameToAdd) {
         final int prefix = getPrefixLength(fullFileNameToAdd);
         if (prefix < 0) {
@@ -533,6 +589,17 @@ public class FilenameUtils {
      * @since 2.2
      * @see FileUtils#directoryContains(File, File)
      */
+
+    //@ signals_only IOException || IllegalArgumentException;
+    //@ requires \typeof(canonicalParent) == \type(String);
+    //@ requires canonicalParent != null;
+    //@ requires \typeof(canonicalChild) == \type(String);
+    //@ requires canonicalChild != null;
+    //@ ensures \typeof(\result) == \type(boolean);
+    //@ ensures \result != null;
+    //@ signals (IOException e);
+    //@ signals (IllegalArgumentException e);
+
     public static boolean directoryContains(final String canonicalParent, final String canonicalChild)
             throws IOException {
 
@@ -559,6 +626,12 @@ public class FilenameUtils {
      * @param path  the path to be changed, null ignored
      * @return the updated path
      */
+
+    //@ requires \typeof(path) == \type(String);
+    //@ requires path != null;
+    //@ ensures \typeof(\result) == \type(boolean);
+    //@ ensures \result != null;
+
     public static String separatorsToUnix(final String path) {
         if (path == null || path.indexOf(WINDOWS_SEPARATOR) == NOT_FOUND) {
             return path;
@@ -572,6 +645,12 @@ public class FilenameUtils {
      * @param path  the path to be changed, null ignored
      * @return the updated path
      */
+
+    //@ requires \typeof(path) == \type(String);
+    //@ requires path != null;
+    //@ ensures \typeof(\result) == \type(boolean);
+    //@ ensures \result != null;
+
     public static String separatorsToWindows(final String path) {
         if (path == null || path.indexOf(UNIX_SEPARATOR) == NOT_FOUND) {
             return path;
@@ -585,6 +664,12 @@ public class FilenameUtils {
      * @param path  the path to be changed, null ignored
      * @return the updated path
      */
+
+    //@ requires \typeof(path) == \type(String);
+    //@ requires path != null;
+    //@ ensures \typeof(\result) == \type(boolean);
+    //@ ensures \result != null;
+
     public static String separatorsToSystem(final String path) {
         if (path == null) {
             return null;
@@ -631,6 +716,12 @@ public class FilenameUtils {
      * @param fileName  the fileName to find the prefix in, null returns -1
      * @return the length of the prefix, -1 if invalid or null
      */
+
+    //@ requires \typeof(fileName) == \type(String);
+    //@ requires fileName != null;
+    //@ ensures \typeof(\result) == \type(int);
+    //@ ensures \result != null;
+
     public static int getPrefixLength(final String fileName) {
         if (fileName == null) {
             return NOT_FOUND;
@@ -700,6 +791,12 @@ public class FilenameUtils {
      * @return the index of the last separator character, or -1 if there
      * is no such character
      */
+
+    //@ requires \typeof(fileName) == \type(String);
+    //@ requires fileName != null;
+    //@ ensures \typeof(\result) == \type(int);
+    //@ ensures \result != null;
+
     public static int indexOfLastSeparator(final String fileName) {
         if (fileName == null) {
             return NOT_FOUND;
@@ -731,6 +828,14 @@ public class FilenameUtils {
      * @throws IllegalArgumentException <b>Windows only:</b> The fileName parameter is, in fact,
      * the identifier of an Alternate Data Stream, for example "foo.exe:bar.txt".
      */
+
+    //@ signals_only IllegalArgumentException;
+    //@ requires \typeof(fileName) == \type(String);
+    //@ requires fileName != null;
+    //@ ensures \typeof(\result) == \type(int);
+    //@ ensures \result != null;
+    //@ signals (IllegalArgumentException e);
+
     public static int indexOfExtension(final String fileName) throws IllegalArgumentException {
         if (fileName == null) {
             return NOT_FOUND;
@@ -777,6 +882,12 @@ public class FilenameUtils {
      * @param fileName  the fileName to query, null returns null
      * @return the prefix of the file, null if invalid. Null bytes inside string will be removed
      */
+
+    //@ requires \typeof(fileName) == \type(String);
+    //@ requires fileName != null;
+    //@ ensures \typeof(\result) == \type(String);
+    //@ ensures \result != null;
+
     public static String getPrefix(final String fileName) {
         if (fileName == null) {
             return null;
@@ -817,6 +928,12 @@ public class FilenameUtils {
      * @return the path of the file, an empty string if none exists, null if invalid.
      * Null bytes inside string will be removed
      */
+
+    //@ requires \typeof(fileName) == \type(String);
+    //@ requires fileName != null;
+    //@ ensures \typeof(\result) == \type(String);
+    //@ ensures \result != null;
+
     public static String getPath(final String fileName) {
         return doGetPath(fileName, 1);
     }
@@ -845,6 +962,12 @@ public class FilenameUtils {
      * @return the path of the file, an empty string if none exists, null if invalid.
      * Null bytes inside string will be removed
      */
+
+    //@ requires \typeof(fileName) == \type(String);
+    //@ requires fileName != null;
+    //@ ensures \typeof(\result) == \type(String);
+    //@ ensures \result != null;
+
     public static String getPathNoEndSeparator(final String fileName) {
         return doGetPath(fileName, 0);
     }
@@ -856,6 +979,14 @@ public class FilenameUtils {
      * @param separatorAdd  0 to omit the end separator, 1 to return it
      * @return the path. Null bytes inside string will be removed
      */
+
+    //@ requires \typeof(fileName) == \type(String);
+    //@ requires fileName != null;
+    //@ requires \typeof(separatorAdd) == \type(int);
+    //@ requires separatorAdd != null;
+    //@ ensures \typeof(\result) == \type(String);
+    //@ ensures \result != null;
+
     private static String doGetPath(final String fileName, final int separatorAdd) {
         if (fileName == null) {
             return null;
@@ -899,6 +1030,12 @@ public class FilenameUtils {
      * @param fileName  the fileName to query, null returns null
      * @return the path of the file, an empty string if none exists, null if invalid
      */
+
+    //@ requires \typeof(fileName) == \type(String);
+    //@ requires fileName != null;
+    //@ ensures \typeof(\result) == \type(String);
+    //@ ensures \result != null;
+
     public static String getFullPath(final String fileName) {
         return doGetFullPath(fileName, true);
     }
@@ -929,6 +1066,12 @@ public class FilenameUtils {
      * @param fileName  the fileName to query, null returns null
      * @return the path of the file, an empty string if none exists, null if invalid
      */
+
+    //@ requires \typeof(fileName) == \type(String);
+    //@ requires fileName != null;
+    //@ ensures \typeof(\result) == \type(String);
+    //@ ensures \result != null;
+
     public static String getFullPathNoEndSeparator(final String fileName) {
         return doGetFullPath(fileName, false);
     }
@@ -940,6 +1083,14 @@ public class FilenameUtils {
      * @param includeSeparator  true to include the end separator
      * @return the path
      */
+
+    //@ requires \typeof(fileName) == \type(String);
+    //@ requires fileName != null;
+    //@ requires \typeof(includeSeparator) == \type(boolean);
+    //@ requires includeSeparator != null;
+    //@ ensures \typeof(\result) == \type(String);
+    //@ ensures \result != null;
+
     private static String doGetFullPath(final String fileName, final boolean includeSeparator) {
         if (fileName == null) {
             return null;
@@ -983,6 +1134,12 @@ public class FilenameUtils {
      * @return the name of the file without the path, or an empty string if none exists.
      * Null bytes inside string will be removed
      */
+
+    //@ requires \typeof(fileName) == \type(String);
+    //@ requires fileName != null;
+    //@ ensures \typeof(\result) == \type(String);
+    //@ ensures \result != null;
+
     public static String getName(final String fileName) {
         if (fileName == null) {
             return null;
@@ -998,6 +1155,12 @@ public class FilenameUtils {
      * This may be used for poison byte attacks.
      * @param path the path to check
      */
+
+    //@ signals_only IllegalArgumentException;
+    //@ requires \typeof(path) == \type(String);
+    //@ requires path != null;
+    //@ signals (IllegalArgumentException e);
+
     private static void failIfNullBytePresent(final String path) {
         final int len = path.length();
         for (int i = 0; i < len; i++) {
@@ -1026,6 +1189,12 @@ public class FilenameUtils {
      * @return the name of the file without the path, or an empty string if none exists. Null bytes inside string
      * will be removed
      */
+
+    //@ requires \typeof(fileName) == \type(String);
+    //@ requires fileName != null;
+    //@ ensures \typeof(\result) == \type(String);
+    //@ ensures \result != null;
+
     public static String getBaseName(final String fileName) {
         return removeExtension(getName(fileName));
     }
@@ -1058,6 +1227,14 @@ public class FilenameUtils {
      * @throws IllegalArgumentException <b>Windows only:</b> The fileName parameter is, in fact,
      * the identifier of an Alternate Data Stream, for example "foo.exe:bar.txt".
      */
+
+    //@ signals_only IllegalArgumentException;
+    //@ requires \typeof(fileName) == \type(String);
+    //@ requires fileName != null;
+    //@ ensures \typeof(\result) == \type(String);
+    //@ ensures \result != null;
+    //@ signals (IllegalArgumentException e);
+
     public static String getExtension(final String fileName) throws IllegalArgumentException {
         if (fileName == null) {
             return null;
@@ -1075,6 +1252,12 @@ public class FilenameUtils {
      * @param fileName a file name
      * @return ADS offsets.
      */
+
+    //@ requires \typeof(fileName) == \type(String);
+    //@ requires fileName != null;
+    //@ ensures \typeof(\result) == \type(int);
+    //@ ensures \result != null;
+
     private static int getAdsCriticalOffset(final String fileName) {
         // Step 1: Remove leading path segments.
         final int offset1 = fileName.lastIndexOf(SYSTEM_SEPARATOR);
@@ -1109,6 +1292,12 @@ public class FilenameUtils {
      * @param fileName  the fileName to query, null returns null
      * @return the fileName minus the extension
      */
+
+    //@ requires \typeof(fileName) == \type(String);
+    //@ requires fileName != null;
+    //@ ensures \typeof(\result) == \type(String);
+    //@ ensures \result != null;
+
     public static String removeExtension(final String fileName) {
         if (fileName == null) {
             return null;
@@ -1134,6 +1323,14 @@ public class FilenameUtils {
      * @return true if the fileNames are equal, null equals null
      * @see IOCase#SENSITIVE
      */
+
+    //@ requires \typeof(fileName1) == \type(String);
+    //@ requires fileName1 != null;
+    //@ requires \typeof(fileName2) == \type(String);
+    //@ requires fileName2 != null;
+    //@ ensures \typeof(\result) == \type(boolean);
+    //@ ensures \result != null;
+
     public static boolean equals(final String fileName1, final String fileName2) {
         return equals(fileName1, fileName2, false, IOCase.SENSITIVE);
     }
@@ -1149,6 +1346,14 @@ public class FilenameUtils {
      * @return true if the fileNames are equal, null equals null
      * @see IOCase#SYSTEM
      */
+
+    //@ requires \typeof(fileName1) == \type(String);
+    //@ requires fileName1 != null;
+    //@ requires \typeof(fileName2) == \type(String);
+    //@ requires fileName2 != null;
+    //@ ensures \typeof(\result) == \type(boolean);
+    //@ ensures \result != null;
+
     public static boolean equalsOnSystem(final String fileName1, final String fileName2) {
         return equals(fileName1, fileName2, false, IOCase.SYSTEM);
     }
@@ -1165,6 +1370,14 @@ public class FilenameUtils {
      * @return true if the fileNames are equal, null equals null
      * @see IOCase#SENSITIVE
      */
+
+    //@ requires \typeof(fileName1) == \type(String);
+    //@ requires fileName1 != null;
+    //@ requires \typeof(fileName2) == \type(String);
+    //@ requires fileName2 != null;
+    //@ ensures \typeof(\result) == \type(boolean);
+    //@ ensures \result != null;
+
     public static boolean equalsNormalized(final String fileName1, final String fileName2) {
         return equals(fileName1, fileName2, true, IOCase.SENSITIVE);
     }
@@ -1182,6 +1395,14 @@ public class FilenameUtils {
      * @return true if the fileNames are equal, null equals null
      * @see IOCase#SYSTEM
      */
+
+    //@ requires \typeof(fileName1) == \type(String);
+    //@ requires fileName1 != null;
+    //@ requires \typeof(fileName2) == \type(String);
+    //@ requires fileName2 != null;
+    //@ ensures \typeof(\result) == \type(boolean);
+    //@ ensures \result != null;
+
     public static boolean equalsNormalizedOnSystem(final String fileName1, final String fileName2) {
         return equals(fileName1, fileName2, true, IOCase.SYSTEM);
     }
@@ -1197,6 +1418,20 @@ public class FilenameUtils {
      * @return true if the fileNames are equal, null equals null
      * @since 1.3
      */
+
+    //@ signals_only NullPointerException;
+    //@ requires \typeof(fileName1) == \type(String);
+    //@ requires fileName1 != null;
+    //@ requires \typeof(fileName2) == \type(String);
+    //@ requires fileName2 != null;
+    //@ requires \typeof(normalized) == \type(boolean);
+    //@ requires normalized != null;
+    //@ requires \typeof(caseSensitivity) == \type(IOCase);
+    //@ requires caseSensitivity != null;
+    //@ ensures \typeof(\result) == \type(boolean);
+    //@ ensures \result != null;
+    //@ signals (NullPointerException e);
+
     public static boolean equals(
             String fileName1, String fileName2,
             final boolean normalized, IOCase caseSensitivity) {
@@ -1231,6 +1466,14 @@ public class FilenameUtils {
      * @return true if the fileName has the specified extension
      * @throws java.lang.IllegalArgumentException if the supplied fileName contains null bytes
      */
+
+    //@ requires \typeof(fileName) == \type(String);
+    //@ requires fileName != null;
+    //@ requires \typeof(extension) == \type(String);
+    //@ requires extension != null;
+    //@ ensures \typeof(\result) == \type(boolean);
+    //@ ensures \result != null;
+
     public static boolean isExtension(final String fileName, final String extension) {
         if (fileName == null) {
             return false;
@@ -1256,6 +1499,14 @@ public class FilenameUtils {
      * @return true if the fileName is one of the extensions
      * @throws java.lang.IllegalArgumentException if the supplied fileName contains null bytes
      */
+
+    //@ requires \typeof(fileName) == \type(String);
+    //@ requires fileName != null;
+    //@ requires \typeof(extensions) == \type(String...);
+    //@ requires extensions != null;
+    //@ ensures \typeof(\result) == \type(boolean);
+    //@ ensures \result != null;
+
     public static boolean isExtension(final String fileName, final String... extensions) {
         if (fileName == null) {
             return false;
@@ -1286,6 +1537,14 @@ public class FilenameUtils {
      * @return true if the fileName is one of the extensions
      * @throws java.lang.IllegalArgumentException if the supplied fileName contains null bytes
      */
+
+    //@ requires \typeof(fileName) == \type(String);
+    //@ requires fileName != null;
+    //@ requires \typeof(extensions) == \type(Collection<String>);
+    //@ requires extensions != null;
+    //@ ensures \typeof(\result) == \type(boolean);
+    //@ ensures \result != null;
+
     public static boolean isExtension(final String fileName, final Collection<String> extensions) {
         if (fileName == null) {
             return false;
@@ -1327,6 +1586,14 @@ public class FilenameUtils {
      * @return true if the fileName matches the wildcard string
      * @see IOCase#SENSITIVE
      */
+
+    //@ requires \typeof(fileName) == \type(String);
+    //@ requires fileName != null;
+    //@ requires \typeof(wildcardMatcher) == \type(String);
+    //@ requires wildcardMatcher != null;
+    //@ ensures \typeof(\result) == \type(boolean);
+    //@ ensures \result != null;
+
     public static boolean wildcardMatch(final String fileName, final String wildcardMatcher) {
         return wildcardMatch(fileName, wildcardMatcher, IOCase.SENSITIVE);
     }
@@ -1353,6 +1620,14 @@ public class FilenameUtils {
      * @return true if the fileName matches the wildcard string
      * @see IOCase#SYSTEM
      */
+
+    //@ requires \typeof(fileName) == \type(String);
+    //@ requires fileName != null;
+    //@ requires \typeof(wildcardMatcher) == \type(String);
+    //@ requires wildcardMatcher != null;
+    //@ ensures \typeof(\result) == \type(boolean);
+    //@ ensures \result != null;
+
     public static boolean wildcardMatchOnSystem(final String fileName, final String wildcardMatcher) {
         return wildcardMatch(fileName, wildcardMatcher, IOCase.SYSTEM);
     }
@@ -1371,6 +1646,16 @@ public class FilenameUtils {
      * @return true if the fileName matches the wildcard string
      * @since 1.3
      */
+
+    //@ requires \typeof(fileName) == \type(String);
+    //@ requires fileName != null;
+    //@ requires \typeof(wildcardMatcher) == \type(String);
+    //@ requires wildcardMatcher != null;
+    //@ requires \typeof(caseSensitivity) == \type(IOCase);
+    //@ requires caseSensitivity != null;
+    //@ ensures \typeof(\result) == \type(boolean);
+    //@ ensures \result != null;
+
     public static boolean wildcardMatch(final String fileName, final String wildcardMatcher, IOCase caseSensitivity) {
         if (fileName == null && wildcardMatcher == null) {
             return true;
@@ -1461,6 +1746,12 @@ public class FilenameUtils {
      * @param text  the text to split
      * @return the array of tokens, never null
      */
+
+    //@ requires \typeof(text) == \type(String);
+    //@ requires text != null;
+    //@ ensures \typeof(\result) == \type(String[]);
+    //@ ensures \result != null;
+
     static String[] splitOnTokens(final String text) {
         // used by wildcardMatch
         // package level so a unit test may run on this
@@ -1508,6 +1799,12 @@ public class FilenameUtils {
      * @param name the hostname to validate
      * @return true if the given name is a valid host name
      */
+
+    //@ requires \typeof(name) == \type(String);
+    //@ requires name != null;
+    //@ ensures \typeof(\result) == \type(boolean);
+    //@ ensures \result != null;
+
     private static boolean isValidHostName(final String name) {
         return isIPv6Address(name) || isRFC3986HostName(name);
     }
@@ -1522,6 +1819,12 @@ public class FilenameUtils {
      * @param name the name to validate
      * @return true if the given name is a valid IPv4 address
      */
+
+    //@ requires \typeof(name) == \type(String);
+    //@ requires name != null;
+    //@ ensures \typeof(\result) == \type(boolean);
+    //@ ensures \result != null;
+
     // mostly copied from org.apache.commons.validator.routines.InetAddressValidator#isValidInet4Address
     private static boolean isIPv4Address(final String name) {
         final Matcher m = IPV4_PATTERN.matcher(name);
@@ -1558,6 +1861,12 @@ public class FilenameUtils {
      * @param inet6Address the name to validate
      * @return true if the given name is a valid IPv6 address
      */
+
+    //@ requires \typeof(inet6Address) == \type(String);
+    //@ requires inet6Address != null;
+    //@ ensures \typeof(\result) == \type(boolean);
+    //@ ensures \result != null;
+
     private static boolean isIPv6Address(final String inet6Address) {
         final boolean containsCompressedZeroes = inet6Address.contains("::");
         if (containsCompressedZeroes && (inet6Address.indexOf("::") != inet6Address.lastIndexOf("::"))) {
@@ -1631,6 +1940,12 @@ public class FilenameUtils {
      * @param name the hostname to validate
      * @return true if the given name is a valid host name
      */
+
+    //@ requires \typeof(name) == \type(String);
+    //@ requires name != null;
+    //@ ensures \typeof(\result) == \type(boolean);
+    //@ ensures \result != null;
+
     private static boolean isRFC3986HostName(final String name) {
         final String[] parts = name.split("\\.", -1);
         for (int i = 0; i < parts.length; i++) {
